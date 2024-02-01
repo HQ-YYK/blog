@@ -1,30 +1,37 @@
-"use client"
-
 // 11. 导入轨道控制器
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-// 12.导入MMD文件数据加载器的RGBELoader 
-// import { MMDLoader } from 'three/examples/jsm/loaders/MMDLoader.js'
-// 12.导入glb文件数据加载器的RGBELoader 
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import Stats from 'three/addons/libs/stats.module.js';
 
 const initFun = (THREE: typeof import("three")) => {
     // 2. 初始化场景
     const scene = new THREE.Scene()
+    scene.fog = new THREE.Fog(0x88ccee, 0, 50);
 
     // 3. 初始化相机
     const camera = new THREE.PerspectiveCamera(
         75,
         window.innerWidth / window.innerHeight,
-        0.1,
-        1000
+        1,
+        70
     )
     // 10.设置相机位置 (才能见到物体) 尽量靠近相机位置更逼真5 ---> 0.1
-    camera.position.z = 0.1 // 这里只能看到z轴的面，需要添加控制器进行查看物体
+    camera.position.set(0, 4, 0) // 这里只能看到y轴的面，需要添加控制器进行查看物体
+    camera.rotation.order = 'YXZ';
 
     // 4. 初始化渲染器
-    const renderer = new THREE.WebGLRenderer()
+    const renderer = new THREE.WebGLRenderer({ antialias: true }); // 开启锯齿
+    renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight)
-    document.body.appendChild(renderer.domElement)
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.VSMShadowMap;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+
+
+    // 初始化性能监视器,显示帧率
+    const stats = new Stats();
+    // 设置监视器位置
+    stats.dom.style.position = 'absolute';
+    stats.dom.style.top = '0px';
 
 
     // 7.定义一个渲染函数
@@ -40,42 +47,22 @@ const initFun = (THREE: typeof import("three")) => {
     const controls = new OrbitControls(camera, renderer.domElement)
     // 13. 添加控制器阻尼的感觉,让控制器更有真实效果
     controls.enableDamping = true
+    // 调整摄像机
+    controls.target.set(0, 0, - Math.PI / 2 - 3);
+    // 开启缩放功能
+    controls.enableZoom = true;
+    // 设置最大缩放距离为10米
+    controls.maxDistance = 10;
+    // 设置最小缩放距离为5米
+    controls.minDistance = 5;
 
+    const onResize = () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
 
-    // 加载hdr环境图
-    //    const mmdELoader = new MMDLoader()
-    //    mmdELoader.load('/pmx/Stage.pmx', mesh => {
-    //     scene.add(mesh)
-    //    },xhr => {
-    //     console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-    //    },error =>{
-    //     console.log( 'An error happened' );
-    //    })
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
 
-    const gltfELoader = new GLTFLoader()
-    gltfELoader.load('/glb/spaceship.glb', gltf => {
-        const ambientLight = new THREE.AmbientLight(0xffffff, 1); // 白光，强度为1
-        scene.add(ambientLight);
-    
-        const dirLight = new THREE.DirectionalLight('rgb(253,253,253)', 5);
-        dirLight.position.set(10, 10, 5); // 根据需要自行调整位置
-        scene.add(dirLight);
-    
-        gltf.scene.traverse((child) => {
-            if (child.isMesh) {
-              child.material.side = THREE.DoubleSide; // 模型双面渲染
-              child.castShadow = true;  // 光照是否有阴影
-              child.receiveShadow = true;  // 是否接收阴影
-              child.frustumCulled = false;
-            }
-        });
-
-        scene.add(gltf.scene);
-    }, xhr => {
-        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-    }, error => {
-        console.log('An error happened');
-    })
 
     return {
         // 渲染器
@@ -85,7 +72,11 @@ const initFun = (THREE: typeof import("three")) => {
         // 场景
         scene,
         // 相机
-        camera
+        camera,
+        // 轨道控制器
+        controls,
+        stats,
+        onResize
     }
 }
 
