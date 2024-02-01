@@ -10,9 +10,6 @@ import bgFun from './hooks/bg'
 import './globals.css'
 
 export default function Home() {
-  const { render, renderer, scene, camera, controls, stats, onResize } = initFun(THREE)
-  bgFun(THREE, renderer, scene, camera, controls)
-
   // 5. 初始化dom
   const containerRef = useRef<HTMLDivElement>(null); // 通过泛型指定 `containerRef` 是一个 `HTMLDivElement`
   // 6.挂载完毕后获取dom 
@@ -20,6 +17,9 @@ export default function Home() {
     if (!containerRef.current) {
       throw new Error("containerRef.current is not valid");
     }
+    const { render, renderer, scene, camera, controls, stats, onResize } = initFun(THREE)
+    bgFun(THREE, renderer, scene, camera, controls)
+
     containerRef.current?.appendChild(renderer.domElement)
     containerRef.current?.appendChild(stats.dom)
 
