@@ -1,8 +1,4 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  plugins: [
-    '@/plugins/global-window',
-  ],
-}
+const nextConfig = {}
 
 module.exports = nextConfig
