@@ -1,34 +1,25 @@
-import { Camera, Event, Object3D, Scene, WebGLRenderer } from "three"
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { LoadingManager, Scene } from "three"
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import { directionalLightType } from "../types/bg";
+import { directionalLightType } from "../../types/bg";
+import { Dispatch, SetStateAction } from "react";
 
-const bgFun = (THREE: typeof import("three"), renderer: WebGLRenderer, scene: Scene, camera: Camera, controls: OrbitControls) => {
+// import { initLoadingManager } from '../../pages/genshin/Preloader'
+
+const bgFun = (THREE: typeof import("three"), scene: Scene, loadingManager) => {
   // 创建一个加载器
-  const loader = new GLTFLoader();
+  const loader = new GLTFLoader(loadingManager);
 
   // 加载模型文件
-  loader.load(
-    '/glb/bg.glb',
-    (gltf) => {
-      // 获取场景中的第一个模型对象
-      const model = gltf.scene;
+  loader.load('/glb/bg.glb', (gltf) => {
+    // 获取场景中的第一个模型对象
+    const model = gltf.scene;
 
-      // 将模型放置在场景中
-      scene.add(model);
+    // 将模型放置在场景中
+    scene.add(model);
 
-      // 创建灯光
-      setDirectionalLight()
-    },
-    (xhr) => {
-      // 加载过程中的回调函数
-      console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-    },
-    (error) => {
-      // 加载错误的回调函数
-      console.log('An error happened', error);
-    }
-  );
+    // 创建灯光
+    setDirectionalLight()
+  });
 
 
   const createDirectionalLight = (light: directionalLightType) => {
