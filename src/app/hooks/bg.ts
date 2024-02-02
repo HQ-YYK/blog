@@ -1,11 +1,8 @@
 import { LoadingManager, Scene } from "three"
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { directionalLightType } from "../../types/bg";
-import { Dispatch, SetStateAction } from "react";
 
-// import { initLoadingManager } from '../../pages/genshin/Preloader'
-
-const bgFun = (THREE: typeof import("three"), scene: Scene, loadingManager) => {
+const bgFun = (THREE: typeof import("three"), scene: Scene, loadingManager: LoadingManager | undefined) => {
   // 创建一个加载器
   const loader = new GLTFLoader(loadingManager);
 

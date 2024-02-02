@@ -3,6 +3,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import Stats from 'three/addons/libs/stats.module.js';
 
 const initFun = (THREE: typeof import("three")) => {
+    if (!window) return
     // 2. 初始化场景
     const scene = new THREE.Scene()
     scene.fog = new THREE.Fog(0x88ccee, 0, 50);
