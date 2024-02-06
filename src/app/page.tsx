@@ -6,6 +6,7 @@ import * as THREE from 'three'
 
 import initFun from './hooks/init'
 import bgFun from './hooks/bg'
+import modelFun from './hooks/model'
 
 import Preloader from '../pages/genshin/Preloader'
 
@@ -30,7 +31,6 @@ export default function Home() {
         setProgress(parseFloat(((loaded / total) * 100).toFixed(2)));
       }, 800);
     } else {
-      console.log(Math.floor(loaded / total * 100));
       setProgress(parseFloat(((loaded / total) * 100).toFixed(2)));
     }
   };
@@ -42,8 +42,9 @@ export default function Home() {
     };
 
     if (containerRef.current) {
-      const { render, renderer, scene, stats, onResize } = initFun(THREE)
+      const { renderer, render, scene, stats, onResize } = initFun(THREE)
       bgFun(THREE, scene, loadingManager)
+      modelFun(THREE, scene)
 
       containerRef.current?.appendChild(renderer.domElement)
       progress === 100.00 && containerRef.current?.appendChild(stats.dom)

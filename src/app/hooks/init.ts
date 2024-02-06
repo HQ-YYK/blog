@@ -3,7 +3,6 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import Stats from 'three/addons/libs/stats.module.js';
 
 const initFun = (THREE: typeof import("three")) => {
-    if (!window) return
     // 2. 初始化场景
     const scene = new THREE.Scene()
     scene.fog = new THREE.Fog(0x88ccee, 0, 50);
@@ -16,7 +15,7 @@ const initFun = (THREE: typeof import("three")) => {
         70
     )
     // 10.设置相机位置 (才能见到物体) 尽量靠近相机位置更逼真5 ---> 0.1
-    camera.position.set(0, 4, 0) // 这里只能看到y轴的面，需要添加控制器进行查看物体
+    camera.position.set(0, 6, 10) // 这里只能看到y轴的面，需要添加控制器进行查看物体
     camera.rotation.order = 'YXZ';
 
     // 4. 初始化渲染器

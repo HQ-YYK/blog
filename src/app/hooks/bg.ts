@@ -8,7 +8,6 @@ const bgFun = (THREE: typeof import("three"), scene: Scene, loadingManager: Load
 
   // 加载模型文件
   loader.load('/glb/bg.glb', (gltf) => {
-    // 获取场景中的第一个模型对象
     const model = gltf.scene;
 
     // 将模型放置在场景中
@@ -63,7 +62,7 @@ const bgFun = (THREE: typeof import("three"), scene: Scene, loadingManager: Load
   const setDirectionalLight = () => {
     // 创建方向光
     const light = {
-      color: '0xffffff',
+      color: '#ffffff',
       intensity: 2.5,
       position: {
         x: -5,
