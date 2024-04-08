@@ -1,95 +1,372 @@
-.progress-container {
-    /* z-index: 1; */
-    height: 100%;
-    width: 100%;
+.box {
+    width: 100vw !important;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+
+
+    --width1: 600px;
+    --width2: 550px;
+    --width3: 500px;
+    --width4: 420px;
+    --width5: 380px;
+    --bg1: rgb(42, 153, 255);
+    --bg2: rgb(5, 216, 244);
+}
+
+.main1 {
+    width: 500px;
+    height: 500px;
+    transform: translateZ(-150px);
+    transform-style: preserve-3d;
+}
+
+.main2 {
+    width: 300px;
+    height: 300px;
+    transform-style: preserve-3d;
+    transform: rotateX(60deg);
+    position: relative;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.positon {
     position: absolute;
-    background-color: #fff;
-    /* border: solid 1px white; */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    pointer-events: none;
-    background-size: 2vmin, 1vmin;
-    transition: opacity 1.5s ease 1s;
 }
 
-.progress-container .progress-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    animation: fadeIn 1.5s ease-in-out forwards;
+.center {
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
 }
 
-.progress-container .Genshin {
-    width: 45vmin;
-    height: 35vmin;
-    margin-bottom: 5vmin;
-    transition: opacity 1s ease 1.2s;
+.firstCircle {
+    width: var(--width1);
+    height: var(--width1);
+    border-radius: 50%;
+    background: repeating-conic-gradient(var(--bg1) 0,
+            var(--bg1) 0.2%,
+            transparent 0.2%,
+            transparent 1.5%,
+            var(--bg1) 1.5%);
+    -webkit-mask: radial-gradient(transparent,
+            transparent 69%,
+            #000 69%,
+            #000 100%);
 }
 
-.progress-container .LoadingBar {
-    width: 40vmin;
-    height: 1.2vmin;
-    border-radius: 0.7vmin;
-    transition: opacity 1s ease 1.2s;
+.firstCircle.active {
+    background: repeating-conic-gradient(var(--bg2) 0,
+            var(--bg2) 0.2%,
+            transparent 0.2%,
+            transparent 1.5%,
+            var(--bg2) 1.5%);
 }
 
-.progress-container .LoadingBar .ball {
-    z-index: auto;
-    top: -1.2vmin;
-    width: 1.2vmin;
-    height: 1.2vmin;
-    position: relative;
-    background-color: rgb(48, 48, 48);
-    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+.secondCircle {
+    width: var(--width2);
+    height: var(--width2);
+    border-radius: 50%;
+    background: repeating-conic-gradient(var(--bg1) 0,
+            var(--bg1) 0.5%,
+            transparent 0.5%,
+            transparent 2%,
+            var(--bg1) 2%);
+    -webkit-mask: radial-gradient(transparent,
+            transparent 65%,
+            #000 65%,
+            #000 100%);
 }
 
-.progress-container .LoadingBar .progress-bar {
-    width: 41vmin;
-    margin-left: -0.5vmin;
+.secondCircle.active {
+    background: repeating-conic-gradient(var(--bg2) 0,
+            var(--bg2) 0.5%,
+            transparent 0.5%,
+            transparent 2%,
+            var(--bg2) 2%);
+}
+
+.thirdCircle {
+    width: var(--width3);
+    height: var(--width3);
+    border-radius: 50%;
+    background: repeating-conic-gradient(var(--bg1) 20%,
+            var(--bg1) 30%,
+            transparent 30%,
+            transparent 50%,
+            var(--bg1) 50%);
+    -webkit-mask: radial-gradient(transparent,
+            transparent 65%,
+            #000 65%,
+            #000 100%);
+}
+
+.fourthCircle {
+    width: var(--width4);
+    height: var(--width4);
+    border-radius: 50%;
+    border: 3px solid var(--bg2);
+}
+
+.sixthCircle {
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    border: 10px solid rgb(5, 252, 255);
+    border-color: rgb(10, 238, 254) transparent;
+    animation: rotate1 3s linear infinite;
+}
+
+.fifthCircle {
+    width: var(--width4);
+    height: var(--width4);
+    transform: translateX(-50%) translateY(-50%) translateZ(200px);
+    animation: rotate2 3s linear infinite;
+    background: repeating-conic-gradient(rgb(0, 236, 255) 0,
+            rgb(0, 236, 255) 2%,
+            transparent 2%,
+            transparent 3%,
+            rgb(0, 236, 255) 3%);
+    border-radius: 50%;
+    -webkit-mask: radial-gradient(transparent,
+            transparent 50%,
+            #000 60%,
+            #000 100%);
+}
+
+.seventhCircle {
+    width: var(--width5);
+    height: var(--width5);
+    border-radius: 50%;
+    border: 5px solid rgb(5, 252, 255);
+    animation: rotate3 3s linear infinite;
+}
+
+.annulusContent {
+    width: 100%;
     height: 100%;
-    background-color: rgb(194, 194, 194);
-    clip-path: polygon(0.5vmin 0, 40.5vmin 0, 100% 50%, 40.5vmin 100%, 0.5vmin 100%, 0 50%);
-}
-
-.progress-container .LoadingBar .progress-bar .progress {
-    width: 50%;
-    height: 100%;
-    background-color: rgb(48, 48, 48);
-    /* transition: width 0.5s ease; */
-}
-
-.bird {
-    float: right;
     position: relative;
-    top: -32px;
-    right: -20px;
+    transform-style: preserve-3d;
 }
 
-#front_wings {
-    transform-origin: bottom;
-    animation: flap 1s linear infinite alternate;
+.annulus {
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    background: conic-gradient(rgb(69, 164, 254) 0,
+            rgb(69, 164, 254) 2%,
+            transparent 2%);
+    border-radius: 50%;
+    -webkit-mask: radial-gradient(transparent,
+            transparent 57%,
+            #000 57%,
+            #000 100%);
 }
 
-#back_wings {
-    transform-origin: bottom;
-    animation: flap 1s linear infinite alternate;
+.annulus1 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(10deg);
 }
 
-@keyframes flap {
-    50% {
-        transform: scaleY(0.3)
-    }
+.annulus2 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(20deg);
 }
 
-@keyframes fadeIn {
+.annulus3 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(30deg);
+}
+
+.annulus4 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(40deg);
+}
+
+.annulus5 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(50deg);
+}
+
+.annulus6 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(60deg);
+}
+
+.annulus7 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(70deg);
+}
+
+.annulus8 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(80deg);
+}
+
+.annulus9 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(90deg);
+}
+
+.annulus10 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(100deg);
+}
+
+.annulus11 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(110deg);
+}
+
+.annulus12 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(120deg);
+}
+
+.annulus13 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(130deg);
+}
+
+.annulus14 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(140deg);
+}
+
+.annulus15 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(150deg);
+}
+
+.annulus16 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(160deg);
+}
+
+.annulus17 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(170deg);
+}
+
+.annulus18 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(180deg);
+}
+
+.annulus19 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(190deg);
+}
+
+.annulus20 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(200deg);
+}
+
+.annulus21 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(210deg);
+}
+
+.annulus22 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(220deg);
+}
+
+.annulus23 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(230deg);
+}
+
+.annulus24 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(240deg);
+}
+
+.annulus25 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(250deg);
+}
+
+.annulus26 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(260deg);
+}
+
+.annulus27 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(270deg);
+}
+
+.annulus28 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(280deg);
+}
+
+.annulus29 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(290deg);
+}
+
+.annulus30 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(300deg);
+}
+
+.annulus31 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(310deg);
+}
+
+.annulus32 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(320deg);
+}
+
+.annulus33 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(330deg);
+}
+
+.annulus34 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(340deg);
+}
+
+.annulus35 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(350deg);
+}
+
+.annulus36 {
+    transform: translateX(-50%) translateY(-50%) rotateZ(360deg);
+}
+
+@keyframes rotate1 {
     0% {
-        opacity: 0;
+        transform: translateZ(20px) translateX(-50%) translateY(-50%) rotateZ(0deg);
     }
 
     100% {
-        opacity: 1;
+        transform: translateZ(20px) translateX(-50%) translateY(-50%) rotateZ(-360deg);
     }
+}
+
+@keyframes rotate2 {
+    0% {
+        transform: translateX(-50%) translateY(-50%) translateZ(30px) rotateZ(0deg);
+    }
+
+    100% {
+        transform: translateX(-50%) translateY(-50%) translateZ(30px) rotateZ(360deg);
+    }
+}
+
+@keyframes line1 {
+    0% {
+        transform: translateY(-220px);
+    }
+
+    100% {
+        transform: translateY(220px);
+    }
+}
+
+.main3 {
+    position: absolute;
+    top: 60px;
+}
+
+.progress {
+    font-size: 100px;
+    color: #FFFFFF;
+    text-shadow: 0 1px 0 hsl(174, 5%, 80%),
+        0 2px 0 hsl(174, 5%, 75%),
+        0 3px 0 hsl(174, 5%, 70%),
+        0 4px 0 hsl(174, 5%, 66%),
+        0 5px 0 hsl(174, 5%, 64%),
+        0 6px 0 hsl(174, 5%, 62%),
+        0 7px 0 hsl(174, 5%, 61%),
+        0 8px 0 hsl(174, 5%, 60%),
+        0 0 5px rgba(0, 0, 0, .05),
+        0 1px 3px rgba(0, 0, 0, .2),
+        0 3px 5px rgba(0, 0, 0, .2),
+        0 5px 10px rgba(0, 0, 0, .2),
+        0 10px 10px rgba(0, 0, 0, .2),
+        0 20px 20px rgba(0, 0, 0, .3);
 }
