@@ -24,3 +24,66 @@ body {
       rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
   overflow: hidden;
 }
+
+.big-button {
+  padding: 13px 34px;
+  border-radius: 26px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  width: max-content
+}
+
+.small-button {
+  padding: 9px 36px;
+  color: #fff;
+  border-radius: 13px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer
+}
+
+.orange-hover {
+  background-color: #ff923e;
+  background-image: radial-gradient(circle at center, #ff9b4f 50%, transparent 50%);
+  background-repeat: no-repeat;
+  transition: background-size .3s;
+  background-size: 0 0;
+  background-position: 50% 50%
+}
+
+.orange-hover:hover {
+  background-size: 200% 200%
+}
+
+.gray-hover {
+  background-color: #b9bbbe;
+  background-image: radial-gradient(circle at center, #caccce 50%, transparent 50%);
+  background-repeat: no-repeat;
+  transition: background-size .3s;
+  background-size: 0 0;
+  background-position: 50% 50%
+}
+
+.gray-hover:hover {
+  background-size: 200% 200%
+}
+
+.social-icon {
+  cursor: pointer;
+  filter: grayscale(1) brightness(8);
+  transition: .125s ease-in
+}
+
+.social-icon:hover {
+  filter: unset;
+  transform: scale(1.05)
+}
+
+section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1
+}
