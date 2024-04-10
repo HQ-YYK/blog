@@ -56,4 +56,7 @@ const Index = forwardRef<HTMLDivElement, FristPageProps>(({ loadingManager }, re
   );
 })
 
+// 👇️ set display name
+Index.displayName = 'FristPage';
+
 export default Index;

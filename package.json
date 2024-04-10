@@ -8,8 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "predeploy": "next build",
-    "deploy": "gh-pages -d .next"
+    "predeploy": "next build && next export"
   },
   "dependencies": {
     "next": "14.0.4",

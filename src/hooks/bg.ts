@@ -28,25 +28,25 @@ const bgFun = (THREE: typeof import("three"), scene: Scene, loadingManager: Load
     console.log(shadowModel, model);
 
 
-    const shadowTexture = resources.bakedShadowRoomTexture
-    if (shadowModel) {
-      shadowModel.material = new THREE.RawShaderMaterial({
-        transparent: true,
-        uniforms: {
-          alphaMask: {
-            value: shadowTexture
-          },
-          uColor: {
-            value: "#c4a37e"
-          },
-          uOpacity: {
-            value: 1
-          }
-        },
-        vertexShader: Hc,
-        fragmentShader: Uc
-      });
-    }
+    // const shadowTexture = resources.bakedShadowRoomTexture
+    // if (shadowModel) {
+    //   shadowModel.material = new THREE.RawShaderMaterial({
+    //     transparent: true,
+    //     uniforms: {
+    //       alphaMask: {
+    //         value: shadowTexture
+    //       },
+    //       uColor: {
+    //         value: "#c4a37e"
+    //       },
+    //       uOpacity: {
+    //         value: 1
+    //       }
+    //     },
+    //     vertexShader: Hc,
+    //     fragmentShader: Uc
+    //   });
+    // }
 
     // 将模型放置在场景中
     scene.add(model);

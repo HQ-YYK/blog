@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 import './index.css'
 
 const Index: React.FC = () => {
@@ -17,15 +19,15 @@ const Index: React.FC = () => {
         </div>
         {/* Social Link */}
         <div id="menu-social-container" className="row">
-          <a tabIndex={-1} target="_blank" href="https://twitter.com/DavidHckh"><img className="social-icon"
-            src="/icons/twitter-icon.png" alt="Twitter Menu Icon" height="28" width="28"></img></a>
-          <a tabIndex={-1} target="_blank" href="https://github.com/davidhckh"><img className="social-icon"
-            alt="Github Menu Icon" height="28" width="28" src="/icons/github-icon.png"></img></a>
-          <a tabIndex={-1} target="_blank" href="https://www.linkedin.com/in/david-heckhoff-1ba8a622a/"> <img
+          <a tabIndex={-1} target="_blank" href="https://twitter.com/DavidHckh"><Image className="social-icon"
+            src="/icons/twitter-icon.png" alt="Twitter Menu Icon" height="28" width="28"></Image></a>
+          <a tabIndex={-1} target="_blank" href="https://github.com/davidhckh"><Image className="social-icon"
+            alt="Github Menu Icon" height="28" width="28" src="/icons/github-icon.png"></Image></a>
+          <a tabIndex={-1} target="_blank" href="https://www.linkedin.com/in/david-heckhoff-1ba8a622a/"> <Image
             className="social-icon " alt="Linkedin Menu Icon" height="28" width="28"
-            src="/icons/linkedin-icon.png"></img></a>
-          <a tabIndex={-1} href="mailto:david.heckhoff@gmail.com"> <img className="social-icon" alt="Email Menu Icon"
-            height="28" width="28" src="/icons/mail-icon.png"></img></a>
+            src="/icons/linkedin-icon.png"></Image></a>
+          <a tabIndex={-1} href="mailto:david.heckhoff@gmail.com"> <Image className="social-icon" alt="Email Menu Icon"
+            height="28" width="28" src="/icons/mail-icon.png"></Image></a>
         </div>
         <hr />
         {/* -Music Credits */}
