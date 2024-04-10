@@ -1,3 +1,5 @@
+import * as THREE from 'three';
+
 import { Resources } from '@/types/init'
 
 export const resourcesData: Resources[] = [{
@@ -166,7 +168,8 @@ export const resourcesData: Resources[] = [{
   path: "images/david.png"
 }];
 
-export const Hc = `varying vec2 vUv;
+export const Hc = `
+varying vec2 vUv;
 
 void main()
 {
@@ -174,7 +177,8 @@ void main()
 
     vUv = uv;
 }`
-  , Uc = `uniform sampler2D alphaMask;
+  , Uc = `
+uniform sampler2D alphaMask;
 uniform vec3 uColor;
 uniform float uOpacity;
 
@@ -187,4 +191,42 @@ void main()
     alpha = (1.0 - alpha) * uOpacity;
 
     gl_FragColor = vec4(uColor, alpha);
+}`;
+
+
+export const bgColors = {
+  topLeft: {
+    value: "#000e2e",
+    instance: new THREE.Color("#000e2e")
+  },
+  topRight: {
+    value: "#002757",
+    instance: new THREE.Color("#002757")
+  },
+  bottomLeft: {
+    value: "#004db3",
+    instance: new THREE.Color("#004db3")
+  },
+  bottomRight: {
+    value: "#009dff",
+    instance: new THREE.Color("#009dff")
+  }
+}
+
+export const rw = `
+varying vec3 vColor;
+
+uniform float uOffset;
+
+void main()
+{
+    gl_Position = vec4(position.x, position.y + uOffset, position.z, 1.0);
+
+    vColor = color;
+}`
+  , ow = `varying vec3 vColor;
+
+void main()
+{
+    gl_FragColor = vec4(vColor, 1.0);
 }`;

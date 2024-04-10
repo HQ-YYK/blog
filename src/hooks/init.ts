@@ -4,7 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 const initFun = (THREE: typeof import("three")) => {
     // 2. 初始化场景
     const scene = new THREE.Scene()
-    scene.fog = new THREE.Fog(0x88ccee, 0, 50);
+    scene.fog = new THREE.Fog("#002C6A", 10, 17);
 
     // 3. 初始化相机
     const camera = new THREE.PerspectiveCamera(

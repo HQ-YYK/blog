@@ -18,8 +18,8 @@ const Index = forwardRef<HTMLDivElement, FristPageProps>(({ loadingManager }, re
   useEffect(() => {
     if (fristPageRef.current) {
       const { renderer, render, scene, onResize } = initFun(THREE)
-      bgFun(THREE, scene, loadingManager)
-      // modelFun(THREE, scene)
+      bgFun(THREE, scene)
+      modelFun(THREE, scene, loadingManager)
 
       fristPageRef.current?.appendChild(renderer.domElement)
 
