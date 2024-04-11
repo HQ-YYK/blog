@@ -115,10 +115,11 @@ const modelFun = (THREE: typeof import("three"), scene: Scene, loadingManager: L
 
     // shadow
     room.add(roomShadow)
+    scene.add(roomShadow);
 
 
     // 创建灯光
-    setDirectionalLight()
+    // setDirectionalLight()
   });
 
 

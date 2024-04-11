@@ -14,10 +14,15 @@ import ThirdPage from './thirdPage'
 
 import Preloader from '../pages/loading/Preloader'
 
+import initFun from '../hooks/init'
+import bgFun from '../hooks/bg'
+import modelFun from '../hooks/model'
+
 import './globals.css'
 import "../pages/loading/Preloader.css";
 
 export default function Home() {
+  const webGlRef = useRef<HTMLDivElement>(null);
   // 模型加载进度管理
   const loadingManager = new THREE.LoadingManager();
   let loadingProcessTimeout: any = null;
@@ -40,6 +45,24 @@ export default function Home() {
     loadingManager.onProgress = (url, loaded, total) => {
       handleProgressUpdate(loaded, total);
     };
+
+    if (webGlRef.current) {
+      const { renderer, render, scene, onResize } = initFun(THREE)
+      bgFun(THREE, scene)
+      modelFun(THREE, scene, loadingManager)
+
+      webGlRef.current?.appendChild(renderer.domElement)
+
+      // 8.调用渲染函数
+      render()
+
+      // 监听窗口大小变化事件
+      window.addEventListener('resize', onResize);
+      return () => {
+        // 组件卸载时移除事件监听器
+        window.removeEventListener('resize', onResize);
+      };
+    }
   }, [])
 
 
@@ -50,6 +73,8 @@ export default function Home() {
         {/* {progress === 100.00 ? '' : <Preloader progress={progress} />} */}
         {/* 初始化 DOM */}
         <div className="container">
+          <div ref={webGlRef} className='main-webGl'></div>
+
           <Header />
           {/* <Menu /> */}
           <HoverIcon />

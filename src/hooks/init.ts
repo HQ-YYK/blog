@@ -1,7 +1,14 @@
 // 11. 导入轨道控制器
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
+
 const initFun = (THREE: typeof import("three")) => {
+    const sizes = {
+        width: window.innerWidth,
+        height: window.innerHeight,
+        pixelRatio: Math.min(window.devicePixelRatio, 2)
+    }
+
     // 2. 初始化场景
     const scene = new THREE.Scene()
     scene.fog = new THREE.Fog("#002C6A", 10, 17);
@@ -9,7 +16,7 @@ const initFun = (THREE: typeof import("three")) => {
     // 3. 初始化相机
     const camera = new THREE.PerspectiveCamera(
         75,
-        window.innerWidth / window.innerHeight,
+        sizes.width / sizes.height,
         1,
         70
     )
@@ -19,11 +26,11 @@ const initFun = (THREE: typeof import("three")) => {
 
     // 4. 初始化渲染器
     const renderer = new THREE.WebGLRenderer({ antialias: true }); // 开启锯齿
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight)
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.VSMShadowMap;
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.setClearColor("#F5EFE6")
+    // 包含颜色信息（.map、.emissiveMap 和 .specularMap）的纹理在 glTF 中始终使用 sRGB 颜色空间，而顶点颜色和材质属性（.color、.emissive、.specular）使用线性颜色空间。在典型的渲染工作流程中，渲染器将纹理转换为线性色彩空间，进行光照计算，然后将最终输出转换回 sRGB 并显示在屏幕上。除非您需要在线性色彩空间中进行后期处理，否则在使用 glTF 时始终按如下方式配置 WebGLRenderer 
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.setPixelRatio(Math.min(sizes.pixelRatio, 2));
+    renderer.setSize(sizes.width, sizes.height)
 
 
     // 7.定义一个渲染函数
@@ -49,10 +56,10 @@ const initFun = (THREE: typeof import("three")) => {
     controls.minDistance = 5;
 
     const onResize = () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.aspect = sizes.width / sizes.height;
         camera.updateProjectionMatrix();
 
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setSize(sizes.width, sizes.height);
     }
 
 
