@@ -1,8 +1,8 @@
 import { Scene } from "three"
-import { bgColors, rw, ow } from '@/data/index'
+import { bgColors, rw, ow } from '@/data/Model'
 
 
-const bgFun = (THREE: typeof import("three"), scene: Scene) => {
+const BgFun = (THREE: typeof import("three"), scene: Scene) => {
   // 创建几何体
   const planeGeometry = new THREE.PlaneGeometry(2, 3.5, 1, 1)
   // 创建材料
@@ -24,7 +24,6 @@ const bgFun = (THREE: typeof import("three"), scene: Scene) => {
   // 添加 Mesh 到场景中
   scene.add(mesh)
 
-
   const updateColors = () => {
     bgColors.topLeft.instance.set(bgColors.topLeft.value)
     bgColors.topRight.instance.set(bgColors.topRight.value)
@@ -43,6 +42,7 @@ const bgFun = (THREE: typeof import("three"), scene: Scene) => {
     array[9] = bgColors.bottomRight.instance.r
     array[10] = bgColors.bottomRight.instance.g
     array[11] = bgColors.bottomRight.instance.b
+
     planeGeometry.setAttribute("color", new THREE.BufferAttribute(array, 3))
   }
 
@@ -54,4 +54,4 @@ const bgFun = (THREE: typeof import("three"), scene: Scene) => {
 }
 
 
-export default bgFun
+export default BgFun

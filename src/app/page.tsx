@@ -15,7 +15,7 @@ import ThirdPage from './thirdPage'
 import Preloader from '../pages/loading/Preloader'
 
 import initFun from '../hooks/init'
-import bgFun from '../hooks/bg'
+import { BgFun } from '../hooks/Base'
 import modelFun from '../hooks/model'
 
 import './globals.css'
@@ -48,7 +48,7 @@ export default function Home() {
 
     if (webGlRef.current) {
       const { renderer, render, scene, onResize } = initFun(THREE)
-      bgFun(THREE, scene)
+      BgFun(THREE, scene)
       modelFun(THREE, scene, loadingManager)
 
       webGlRef.current?.appendChild(renderer.domElement)
@@ -78,7 +78,7 @@ export default function Home() {
           <Header />
           {/* <Menu /> */}
           <HoverIcon />
-          <FristPage loadingManager={loadingManager} />
+          <FristPage />
           {/* <SecondPage /> */}
           {/* <ThirdPage /> */}
         </div>
