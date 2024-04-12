@@ -11,6 +11,7 @@
     "predeploy": "next build && next export"
   },
   "dependencies": {
+    "gsap": "^3.12.5",
     "next": "14.0.4",
     "react": "^18",
     "react-dom": "^18"
