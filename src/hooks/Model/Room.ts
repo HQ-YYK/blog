@@ -1,8 +1,15 @@
-import { MeshBasicMaterial, Scene, Mesh, Group, Object3DEventMap, Object3D, ShaderMaterial } from "three"
+import { Scene, Mesh, Group, Object3DEventMap, ShaderMaterial } from "three"
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { gsap } from "gsap";
 
 import { ExtendedObject3D } from "@/types/model";
+
+import DesktopsFun from "./Desktops"
+import MouseFun from "./Mouse"
+import MessagePopUpFun from "./MessagePopUp"
+import TonesFun from "./Tones"
+import SpeakerFun from "./Speaker"
+import PenguinFun from "./Penguin";
 
 let baseModel: any,
   shelvingModel: any,
@@ -25,49 +32,7 @@ const RoomFun = async (
    * @returns 
    */
   const desktopsFun = (baseModel: { children: any[]; add: (arg0: Mesh<any, any, any>) => void; }) => {
-    let desktop0,
-      desktop1,
-      notification;
-
-    // 加载desktops1
-    desktop1 = baseModel.children.find(e => e.name === "desktop-plane-1")
-    // 材质
-    const desktop1PlaneMaterial = new THREE.MeshBasicMaterial({
-      map: new THREE.TextureLoader().load(resources.desktop1),
-      fog: false
-    })
-    if (desktop1 instanceof THREE.Mesh) {
-      desktop1.material = desktop1PlaneMaterial
-      desktop1.scale.x = 1.01
-
-      notification = desktop1.clone()
-      notification.material = new THREE.MeshBasicMaterial({
-        map: new THREE.TextureLoader().load(resources.desktop1Notification),
-        transparent: true,
-        fog: false,
-        opacity: 0
-      })
-      notification.position.x += .01
-      baseModel.add(notification)
-    }
-
-
-    // 加载desktops0
-    desktop0 = baseModel.children.find(e => e.name === "desktop-plane-0")
-    // 材质
-    const desktop0Layer0Material = new THREE.MeshBasicMaterial({
-      map: new THREE.TextureLoader().load(resources.desktop0),
-      fog: false
-    })
-    if (desktop0 instanceof THREE.Mesh) {
-      desktop0.material = desktop0Layer0Material
-    }
-
-    return {
-      desktop0,
-      desktop1,
-      notification,
-    }
+    return DesktopsFun(THREE, baseModel, resources)
   }
 
   /**
@@ -76,34 +41,15 @@ const RoomFun = async (
    * @param roomModel 
    */
   const mouseFun = (baseModel: { add: (arg0: ExtendedObject3D) => void; }, roomModel: { children: any[]; }) => {
-    const mouseModel = roomModel.children.find(e => e.name === "mouse") as ExtendedObject3D;
-    if (mouseModel) {
-      mouseModel.position.x += .15
-      mouseModel.position.z += .07
-      baseModel.add(mouseModel)
-
-      mouseModel.idleStartPosition = {
-        x: mouseModel.position.x,
-        z: mouseModel.position.z
-      }
-    }
+    return MouseFun(baseModel, roomModel)
   }
 
   /**
    * 加载messagePopUp
    * @param roomModel 
    */
-  const messagePopUpFun = (roomModel: Group<Object3DEventMap>) => {
-    const material = new THREE.SpriteMaterial({
-      map: new THREE.TextureLoader().load(resources.newMessageSprite),
-      alphaTest: .1,
-      opacity: 0,
-      fog: false
-    })
-    const sprite = new THREE.Sprite(material);
-    roomModel.add(sprite),
-      sprite.position.set(-1.75, 3.5, 1.8)
-    sprite.scale.set(.35, .35, .35)
+  const messagePopUpFun = (roomModel: Group<Object3DEventMap>, desktops: any) => {
+    return MessagePopUpFun(THREE, roomModel, resources, desktops)
   }
 
   /**
@@ -111,102 +57,15 @@ const RoomFun = async (
    * @param roomModel 
    */
   const tonesFun = (roomModel: Group<Object3DEventMap>) => {
-    const materials = [
-      new THREE.SpriteMaterial({
-        map: new THREE.TextureLoader().load(resources.tone0Texture),
-        alphaTest: .1,
-        opacity: 0,
-        fog: false
-      }),
-      new THREE.SpriteMaterial({
-        map: new THREE.TextureLoader().load(resources.tone1Texture),
-        alphaTest: .1,
-        opacity: 0,
-        fog: false
-      }),
-      new THREE.SpriteMaterial({
-        map: new THREE.TextureLoader().load(resources.tone2Texture),
-        alphaTest: .1,
-        opacity: 0,
-        fog: false
-      })
-    ]
-
-    const sprites = [new THREE.Sprite(materials[0]), new THREE.Sprite(materials[1]), new THREE.Sprite(materials[2])]
-    sprites.forEach(sprite => {
-      sprite.scale.set(.3, .3, .3)
-      sprite.position.set(-1.2, 2, -1.9),
-        roomModel.add(sprite)
-    })
+    return TonesFun(THREE, roomModel, resources)
   }
 
   const speakerFun = (speakerModel: any) => {
-    speakerModel.hoverIcon = "pointer"
-    // speakerModel.onClick = () => clickEvent()
-
-    // window.requestAnimationFrame(() => {
-    //   const e = this.experience.ui.menu.main;
-    //   e.on("open", () => {
-    //     speakerModel.hoverIcon = null
-    //     speakerModel.onClick = null
-    //   }
-    //   )
-    //   e.on("hide", () => {
-    //     speakerModel.hoverIcon = "pointer"
-    //     speakerModel.onClick = () => clickEvent()
-    //   }
-    //   )
-    // })
-
-    // const clickEvent = () => {
-    //   if (!this.experience.ui.intro.clickCTAVisible) {
-    //     const e = this.experience.ui.soundButton
-    //     e.active ? e.deactivate() : e.activate()
-    //     this.sounds.play("buttonClick")
-    //   }
-    // }
+    return SpeakerFun(THREE, speakerModel)
   }
 
   const penguinFun = (penguinModel: any, roomModel: Group<Object3DEventMap>) => {
-    const heartMaterial = new THREE.SpriteMaterial({
-      map: new THREE.TextureLoader().load(resources.heartTexture),
-      alphaTest: .1,
-      opacity: 0,
-      fog: false,
-      rotation: .2
-    })
-    const heart = new THREE.Sprite(heartMaterial)
-    heart.position.set(penguinModel.x + .07, 2.2, penguinModel.z + .07)
-    heart.scale.set(.25, .25, .25)
-    roomModel.add(heart)
-
-    penguinModel.hoverIcon = "pointer",
-      penguinModel.onClick = () => jump()
-
-    const jump = () => {
-      // this.isJumping || (this.isJumping = !0,
-      //   P.delayedCall(.8, () => this.isJumping = !1),
-      //   P.to(this.model.position, {
-      //       y: 2,
-      //       yoyo: !0,
-      //       repeat: 1,
-      //       duration: .4
-      //   }),
-      //   P.to(this.wings[0].rotation, {
-      //       x: .4,
-      //       duration: .1,
-      //       repeat: 7,
-      //       yoyo: !0
-      //   }),
-      //   P.to(this.wings[1].rotation, {
-      //       x: -.4,
-      //       duration: .1,
-      //       repeat: 7,
-      //       yoyo: !0
-      //   }),
-      //   this.sounds.play("bird"),
-      //   this.animateHeart())
-    }
+    return PenguinFun(THREE, resources, penguinModel, roomModel)
   }
 
   const model = await gltfLoader.loadAsync(resources.roomModel)
@@ -214,7 +73,7 @@ const RoomFun = async (
 
   // 模型
   if (!roomModel) return
-  baseModel = roomModel.children.find((child: { name: string; }) => child.name === 'roomModel-base')
+  baseModel = roomModel.children.find((child: { name: string; }) => child.name === 'room-base')
   shelvingModel = roomModel.children.find((child: { name: string; }) => child.name === "shelving")
   pictureModel = roomModel.children.find((child: { name: string; }) => child.name === "picture")
   blackboardModel = roomModel.children.find((child: { name: string; }) => child.name === "blackboard")
@@ -226,29 +85,14 @@ const RoomFun = async (
   const desktopPlane0 = roomModel.children.find((child: { name: string; }) => child.name === 'desktop-plane-0');
   const desktopPlane1 = roomModel.children.find((child: { name: string; }) => child.name === 'desktop-plane-1');
 
-  if (baseModel) {
-    if (speakerModel) baseModel.add(speakerModel);
-    if (penguinModel) baseModel.add(penguinModel);
-    if (chairModel) baseModel.add(chairModel);
-    if (desktopPlane0) baseModel.add(desktopPlane0);
-    if (desktopPlane1) baseModel.add(desktopPlane1);
+  if (speakerModel) baseModel.add(speakerModel);
+  if (penguinModel) baseModel.add(penguinModel);
+  if (chairModel) baseModel.add(chairModel);
+  if (desktopPlane0) baseModel.add(desktopPlane0);
+  if (desktopPlane1) baseModel.add(desktopPlane1);
 
-    roomModel.rotation.y = -Math.PI / 2;
-    roomModel.position.y -= 5.7;
-
-    const desktops = desktopsFun(baseModel)
-
-    const mouse = mouseFun(baseModel, roomModel)
-
-    const messagePopUp = messagePopUpFun(roomModel)
-
-    const tones = tonesFun(roomModel)
-
-    const speaker = speakerFun(speakerModel)
-
-    const penguin = penguinFun(penguinModel, roomModel)
-  }
-
+  roomModel.rotation.y = -Math.PI / 4 * 3
+  roomModel.position.y -= 1.0;
 
   scene.add(roomModel);
 
@@ -372,8 +216,26 @@ const RoomFun = async (
     });
   }
 
+  const desktops = desktopsFun(baseModel)
+
+  const mouse = mouseFun(baseModel, roomModel)
+
+  const messagePopUp = messagePopUpFun(roomModel, desktops)
+
+  const tones = tonesFun(roomModel)
+
+  const speaker = speakerFun(speakerModel)
+
+  const penguin = penguinFun(penguinModel, roomModel)
+
   return {
     roomModel,
+    desktops,
+    mouse,
+    messagePopUp,
+    tones,
+    speaker,
+    penguin,
 
     bounceInAnimation,
     bounceOutAnimation,
