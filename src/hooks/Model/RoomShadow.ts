@@ -13,6 +13,7 @@ const RoomShadowFun = async (
   if (!roomShadowModel) return
   // 纹理
   const shadowTexture = new THREE.TextureLoader().load(resources.bakedShadowRoomTexture)
+  shadowTexture.colorSpace = THREE.SRGBColorSpace;
   shadowTexture.flipY = false
 
   // 材质

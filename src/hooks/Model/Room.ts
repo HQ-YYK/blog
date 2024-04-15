@@ -98,12 +98,13 @@ const RoomFun = async (
 
   // 纹理
   const texture = new THREE.TextureLoader().load(resources.bakedRoomTexture)
+  texture.colorSpace = THREE.SRGBColorSpace;
   texture.flipY = false
   // 材质
   const material = new THREE.MeshBasicMaterial({
     map: texture,
     transparent: true,
-    fog: false
+    fog: false,
   })
   roomModel.traverse((child) => {
     if (child instanceof THREE.Mesh) {
