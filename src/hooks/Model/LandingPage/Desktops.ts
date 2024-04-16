@@ -24,9 +24,11 @@ const DesktopsFun = (
 
   const setDesktop1 = () => {
     desktop1 = baseModel.children.find((e: { name: string; }) => e.name === "desktop-plane-1")
+    const texture = new THREE.TextureLoader().load(resources.desktop1)
+    texture.colorSpace = THREE.SRGBColorSpace;
     // 材质
     const desktop1PlaneMaterial = new THREE.MeshBasicMaterial({
-      map: new THREE.TextureLoader().load(resources.desktop1),
+      map: texture,
       fog: false
     })
     if (desktop1 instanceof THREE.Mesh) {
@@ -40,9 +42,11 @@ const DesktopsFun = (
   const setDesktop0 = () => {
     // 加载desktops0
     desktop0 = baseModel.children.find((e: { name: string; }) => e.name === "desktop-plane-0")
+    const texture = new THREE.TextureLoader().load(resources.desktop0)
+    texture.colorSpace = THREE.SRGBColorSpace;
     // 材质
     const desktop0Layer0Material = new THREE.MeshBasicMaterial({
-      map: new THREE.TextureLoader().load(resources.desktop0),
+      map: texture,
       fog: false
     })
     if (desktop0 instanceof THREE.Mesh) {

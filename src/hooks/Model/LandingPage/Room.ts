@@ -91,7 +91,7 @@ const RoomFun = async (
   if (desktopPlane0) baseModel.add(desktopPlane0);
   if (desktopPlane1) baseModel.add(desktopPlane1);
 
-  roomModel.rotation.y = -Math.PI / 4 * 3
+  roomModel.rotation.y = - Math.PI / 4 * 3
   roomModel.position.y -= 1.0;
 
   scene.add(roomModel);
@@ -100,7 +100,7 @@ const RoomFun = async (
   const texture = new THREE.TextureLoader().load(resources.bakedRoomTexture)
   texture.colorSpace = THREE.SRGBColorSpace;
   texture.flipY = false
-  // 材质
+  // Materials
   const material = new THREE.MeshBasicMaterial({
     map: texture,
     transparent: true,
@@ -229,6 +229,20 @@ const RoomFun = async (
 
   const penguin = penguinFun(penguinModel, roomModel)
 
+  const scrollDesktop0 = () => {
+    // 生成一个随机的滚动速度，范围在 -0.25 到 0.25 之间
+    const randomSpeed = Math.random() * -0.5 + 0.25;
+
+    // 使用 GSAP 来动画滚动
+    gsap.to(new THREE.TextureLoader().load(resources.desktop0).offset, {
+      y: randomSpeed, // 在 y 方向上滚动
+      duration: 1 // 滚动持续时间为 1 秒
+    });
+
+    // 播放鼠标滚轮音效
+    // this.sounds.play("mouseWheel");
+  }
+
   return {
     roomModel,
     desktops,
@@ -240,6 +254,7 @@ const RoomFun = async (
 
     bounceInAnimation,
     bounceOutAnimation,
+    scrollDesktop0,
   }
 }
 

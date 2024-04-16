@@ -1,10 +1,8 @@
-import { Scene, ShaderMaterial } from "three"
 import { Hc, Uc } from '@/data/Model'
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
 
 const RoomShadowFun = async (
   THREE: typeof import("three"),
-  scene: Scene,
   gltfLoader: GLTFLoader,
   resources: Record<string, string>,
 ) => {

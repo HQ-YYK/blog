@@ -18,7 +18,7 @@ const MessagePopUpFun = (
     sprite.position.set(-1.75, 3.5, 1.8)
   sprite.scale.set(.35, .35, .35)
 
-  const messageshow = () => {
+  const show = () => {
     // this.sounds.play("notification")
     gsap.fromTo(sprite.position, {
       y: 3.3
@@ -58,7 +58,7 @@ const MessagePopUpFun = (
   }
 
   return {
-    messageshow
+    show
   }
 }
 
