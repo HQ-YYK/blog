@@ -1,5 +1,5 @@
 import { Group, Object3DEventMap } from "three";
-import { gsap } from "gsap";
+import { gsap, Power4 } from "gsap";
 
 const MessagePopUpFun = (
   THREE: typeof import("three"),

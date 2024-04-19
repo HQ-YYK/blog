@@ -1,6 +1,6 @@
 import { Scene, Mesh, Group, Object3DEventMap, ShaderMaterial } from "three"
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { gsap } from "gsap";
+import { gsap, Power4 } from "gsap";
 
 import { ExtendedObject3D } from "@/types/model";
 

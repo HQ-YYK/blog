@@ -1,5 +1,5 @@
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
-import { gsap } from "gsap"
+import { gsap, Power2, Power1 } from "gsap"
 
 import { TimeFun } from "@/hooks/Utils";
 import { Actions } from "@/types/model"

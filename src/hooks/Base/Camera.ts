@@ -2,7 +2,7 @@ import { Scene } from "three"
 import EventBus from '@/hooks/Utils/EventBus';
 import { Sizes } from '@/types/init'
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"
-import { gsap } from "gsap";
+import { gsap, Power1 } from "gsap";
 import { cursor, parallax, waypoints } from '@/data/Camera'
 
 const tweens: any[] = []
@@ -35,17 +35,17 @@ const CameraFun = (
   }
   setCursor()
 
-  const cameraResize = () => {
+  const resize = () => {
     camera.aspect = sizes.width / sizes.height;
     camera.updateProjectionMatrix();
   }
 
-  const cameraUpdate = () => {
+  const update = () => {
     controls && controls.update()
-    !sizes.touch && parallax.enabled && cameraUpdateParallax()
+    !sizes.touch && parallax.enabled && updateParallax()
   }
 
-  const cameraUpdateParallax = () => {
+  const updateParallax = () => {
     const dx = cursor.x * parallax.intensity;
     const dy = -cursor.y * parallax.intensity;
 
@@ -54,8 +54,8 @@ const CameraFun = (
     const deltaX = (dx - cameraParallaxGroup.position.x) * parallax.speed * timeDelta;
     const deltaY = (dy - cameraParallaxGroup.position.y) * parallax.speed * timeDelta;
 
-    if (Math.abs(deltaX) > 0.05) cameraParallaxGroup.position.x += deltaX;
-    if (Math.abs(deltaY) > 0.05) cameraParallaxGroup.position.y += deltaY;
+    if (deltaX < 0.05 && deltaX > -0.05) cameraParallaxGroup.position.x += deltaX;
+    if (deltaY < 0.05 && deltaY > -0.05) cameraParallaxGroup.position.y += deltaY;
   }
 
   const setupWaypoints = () => {
@@ -72,8 +72,8 @@ const CameraFun = (
   const onOrientationChange = () => {
     tweens.forEach(tween => tween.kill())
   }
-  new EventBus().on("portrait", onOrientationChange);
-  new EventBus().on("landscape", onOrientationChange);
+  EventBus.on("portrait", onOrientationChange);
+  EventBus.on("landscape", onOrientationChange);
 
   const moveToWaypoint = (waypointName: string, animate: boolean = true, duration: number = 0.8) => {
     const targetWaypoint = waypoints.find(waypoint => waypoint.name === waypointName);
@@ -103,8 +103,8 @@ const CameraFun = (
 
   return {
     camera,
-    cameraResize,
-    cameraUpdate,
+    resize,
+    update,
 
 
     waypoints,

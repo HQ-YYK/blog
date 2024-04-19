@@ -24,6 +24,17 @@
   background: transparent;
 }
 
+.clickCTA:after {
+  content: "Click to enable\asounds.";
+  line-height: 17px;
+  white-space: pre-wrap;
+  text-align: center;
+  min-width: 200px;
+  position: relative;
+  top: 50px;
+  color: #7c8594
+}
+
 .hover-spread {
   height: 16px;
   min-width: 16px;

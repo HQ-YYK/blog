@@ -1,9 +1,9 @@
 const SpeakerFun = (
   THREE: typeof import("three"),
-  speakerModel: { hoverIcon: string }
+  speakerModel: { hoverIcon: string; onClick: () => void }
 ) => {
   speakerModel.hoverIcon = "pointer"
-  // speakerModel.onClick = () => clickEvent()
+  speakerModel.onClick = () => clickEvent()
 
   // window.requestAnimationFrame(() => {
   //   const e = this.experience.ui.menu.main;
@@ -19,13 +19,13 @@ const SpeakerFun = (
   //   )
   // })
 
-  // const clickEvent = () => {
-  //   if (!this.experience.ui.intro.clickCTAVisible) {
-  //     const e = this.experience.ui.soundButton
-  //     e.active ? e.deactivate() : e.activate()
-  //     this.sounds.play("buttonClick")
-  //   }
-  // }
+  const clickEvent = () => {
+    // if (!this.experience.ui.intro.clickCTAVisible) {
+    //   const e = this.experience.ui.soundButton
+    //   e.active ? e.deactivate() : e.activate()
+    //   this.sounds.play("buttonClick")
+    // }
+  }
 }
 
 export default SpeakerFun

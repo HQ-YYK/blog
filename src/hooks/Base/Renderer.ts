@@ -13,19 +13,20 @@ const RendererFun = (
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.setClearColor("#F5EFE6")
 
-  const rendererResize = () => {
+  const resize = () => {
     renderer.setPixelRatio(Math.min(sizes.pixelRatio, 2));
     renderer.setSize(sizes.width, sizes.height)
   }
-  rendererResize()
+  resize()
 
-  const rendererUpdate = () => {
+  const update = () => {
     renderer.render(scene, camera)
   }
 
   return {
     renderer,
-    rendererUpdate
+    update,
+    resize
   }
 
 }

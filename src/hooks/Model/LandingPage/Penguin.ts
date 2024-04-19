@@ -1,5 +1,5 @@
 import { Group, Object3DEventMap } from "three"
-import { gsap } from "gsap";
+import { gsap, Power2 } from "gsap";
 
 const PenguinFun = (
   THREE: typeof import("three"),

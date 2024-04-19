@@ -1,65 +1,80 @@
 import {
     SceneFun,
     CameraFun,
-    RendererFun
+    RendererFun,
+    RaycasterFun
 } from "./Base";
 import {
     SizesFun,
     TimeFun
 } from "./Utils";
 import { InitFunResult } from '@/types/init'
+import { PageEleProps } from '@/types/page'
 
 
 
-const initFun = (THREE: typeof import("three")): InitFunResult => {
+const initFun = (
+    THREE: typeof import("three"),
+    { HoverIconRef }: PageEleProps
+): InitFunResult => {
     const { sizes } = SizesFun()
     const { timeData } = TimeFun()
 
     // 2. 初始化场景
-    const { scene } = SceneFun(THREE, sizes)
+    const sceneFun = SceneFun(THREE, sizes)
 
     // 3. 初始化相机
-    const { camera, cameraResize } = CameraFun(
+    const cameraFun = CameraFun(
         THREE,
-        scene,
+        sceneFun.scene,
         sizes,
         timeData
     )
-    camera.position.set(0, 6, 10)
+    cameraFun.camera.position.set(0, 6, 10)
 
 
     // 4. 初始化渲染器
-    const { renderer, rendererUpdate } = RendererFun(
+    const rendererFun = RendererFun(
         THREE,
-        scene,
-        camera,
+        sceneFun.scene,
+        cameraFun.camera,
         sizes,
+    )
+
+    const raycasterFun = RaycasterFun(THREE,
+        sceneFun.scene,
+        cameraFun.camera,
+        { HoverIconRef }
     )
 
 
     // 7.定义一个渲染函数
     const render = () => {
-        rendererUpdate()
+        cameraFun.update()
+        rendererFun.update()
+        raycasterFun.update()
+
         requestAnimationFrame(render)
     }
 
     const onResize = () => {
-        cameraResize()
-
-        renderer.setSize(sizes.width, sizes.height);
+        cameraFun.resize()
+        rendererFun.resize()
     }
 
 
     return {
         // 渲染器
-        renderer,
+        ...rendererFun,
         // 渲染函数
         render,
         // 场景
-        scene,
+        ...sceneFun,
         // 相机
-        camera,
-        onResize
+        ...cameraFun,
+
+        ...raycasterFun,
+        onResize,
     }
 }
 

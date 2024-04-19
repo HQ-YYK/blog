@@ -19,10 +19,14 @@ import { BgFun } from '../hooks/Base'
 import modelFun from '../hooks/model'
 
 import './globals.css'
-import "../pages/loading/Preloader.css";
+import './index.css'
 
 export default function Home() {
   const webGlRef = useRef<HTMLDivElement>(null);
+  const HoverIconRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const fristPageRef = useRef<HTMLDivElement>(null);
+
   // 模型加载进度管理
   const loadingManager = new THREE.LoadingManager();
   let loadingProcessTimeout: any = null;
@@ -40,6 +44,35 @@ export default function Home() {
     }
   };
 
+  const setupThreeScene = () => {
+    const {
+      renderer,
+      render,
+      scene,
+      isHovering,
+
+      onResize,
+      onMouseMove,
+      onClick
+    } = initFun(
+      THREE,
+      {
+        HoverIconRef: HoverIconRef
+      }
+    )
+    BgFun(THREE, scene)
+    modelFun(THREE, scene, loadingManager)
+
+    return {
+      renderer,
+      render,
+      onResize,
+      onMouseMove,
+      onClick,
+      isHovering
+    }
+  }
+
   // 6.挂载完毕后获取dom 
   useEffect(() => {
     loadingManager.onProgress = (url, loaded, total) => {
@@ -47,9 +80,13 @@ export default function Home() {
     };
 
     if (webGlRef.current) {
-      const { renderer, render, scene, onResize } = initFun(THREE)
-      BgFun(THREE, scene)
-      modelFun(THREE, scene, loadingManager)
+      const {
+        renderer,
+        render,
+        onResize,
+        onMouseMove,
+        onClick,
+      } = setupThreeScene()
 
       webGlRef.current?.appendChild(renderer.domElement)
 
@@ -58,12 +95,16 @@ export default function Home() {
 
       // 监听窗口大小变化事件
       window.addEventListener('resize', onResize);
+      window.addEventListener('mousemove', onMouseMove);
+      window.addEventListener('click', onClick);
       return () => {
         // 组件卸载时移除事件监听器
         window.removeEventListener('resize', onResize);
+        window.removeEventListener('mousemove', onMouseMove);
+        window.removeEventListener('click', onClick);
       };
     }
-  }, [])
+  }, [loadingManager, handleProgressUpdate])
 
 
 
@@ -73,14 +114,23 @@ export default function Home() {
         {/* {progress === 100.00 ? '' : <Preloader progress={progress} />} */}
         {/* 初始化 DOM */}
         <div className="container">
-          <div ref={webGlRef} className='main-webGl'></div>
+          <div
+            ref={webGlRef}
+            className='main-webGl'
+          />
 
           <Header />
           {/* <Menu /> */}
-          <HoverIcon />
+          <HoverIcon
+            ref={HoverIconRef}
+            setupThreeScene={setupThreeScene}
+          />
           <FristPage />
-          {/* <SecondPage /> */}
-          {/* <ThirdPage /> */}
+          <div id="scroll-container" className="center column">
+            <SecondPage />
+            <div id="hover-icon-color-switch" />
+            {/* <ThirdPage /> */}
+          </div>
         </div>
       </div>
     </>

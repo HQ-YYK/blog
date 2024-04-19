@@ -14,7 +14,7 @@ const sizesFun = () => {
     if (isTouchDevice !== sizes.touch) {
       sizes.touch = isTouchDevice;
       setTimeout(() => {
-        new EventBus().trigger(sizes.touch ? "touch" : "no-touch");
+        EventBus.emit(sizes.touch ? "touch" : "no-touch");
       });
     }
   }
@@ -24,7 +24,7 @@ const sizesFun = () => {
     if (isPortraitOrientation !== sizes.portrait) {
       sizes.portrait = isPortraitOrientation;
       setTimeout(() => {
-        new EventBus().trigger(sizes.portrait ? "portrait" : "landscape");
+        EventBus.emit(sizes.portrait ? "portrait" : "landscape");
       });
     }
   }
