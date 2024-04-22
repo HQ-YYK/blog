@@ -73,7 +73,9 @@ const CameraFun = (
     tweens.forEach(tween => tween.kill())
   }
   EventBus.on("portrait", onOrientationChange);
+  EventBus.off("portrait", onOrientationChange);
   EventBus.on("landscape", onOrientationChange);
+  EventBus.off("landscape", onOrientationChange);
 
   const moveToWaypoint = (waypointName: string, animate: boolean = true, duration: number = 0.8) => {
     const targetWaypoint = waypoints.find(waypoint => waypoint.name === waypointName);

@@ -44,7 +44,7 @@ const Index: React.FC = () => {
 
         {/* Menu Button */}
         <div id="menu-button-scale-container">
-          <div id="menu-button" className="overlay-button orange-hover flex flex-col justify-center">
+          <div id="menu-button" className="overlay-button orange-hover flex flex-col justify-center items-center">
             <div id="menu-button-bar-0" className="menu-button-bar"></div>
             <div id="menu-button-bar-1" className="menu-button-bar"></div>
             <div id="menu-button-bar-2" className="menu-button-bar"></div>

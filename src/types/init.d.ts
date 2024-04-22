@@ -26,6 +26,5 @@ export interface InitFunResult {
   camera: THREE.PerspectiveCamera;
   isHovering: boolean;
   onResize: () => void;
-  onMouseMove: (event: MouseEvent) => void;
   onClick: () => void;
 }

@@ -32,6 +32,7 @@ export default function Home() {
   let loadingProcessTimeout: any = null;
 
   const [progress, setProgress] = useState(0);
+  const [isHovering, setIsHovering] = useState(false)
 
   const handleProgressUpdate = (loaded: number, total: number) => {
     if (Math.floor(loaded / total * 100) === 100) {
@@ -52,7 +53,6 @@ export default function Home() {
       isHovering,
 
       onResize,
-      onMouseMove,
       onClick
     } = initFun(
       THREE,
@@ -60,6 +60,7 @@ export default function Home() {
         HoverIconRef: HoverIconRef
       }
     )
+    setIsHovering(isHovering)
     BgFun(THREE, scene)
     modelFun(THREE, scene, loadingManager)
 
@@ -67,7 +68,6 @@ export default function Home() {
       renderer,
       render,
       onResize,
-      onMouseMove,
       onClick,
       isHovering
     }
@@ -84,7 +84,6 @@ export default function Home() {
         renderer,
         render,
         onResize,
-        onMouseMove,
         onClick,
       } = setupThreeScene()
 
@@ -95,16 +94,14 @@ export default function Home() {
 
       // 监听窗口大小变化事件
       window.addEventListener('resize', onResize);
-      window.addEventListener('mousemove', onMouseMove);
       window.addEventListener('click', onClick);
       return () => {
         // 组件卸载时移除事件监听器
         window.removeEventListener('resize', onResize);
-        window.removeEventListener('mousemove', onMouseMove);
         window.removeEventListener('click', onClick);
       };
     }
-  }, [loadingManager, handleProgressUpdate])
+  }, [])
 
 
 
@@ -123,7 +120,7 @@ export default function Home() {
           {/* <Menu /> */}
           <HoverIcon
             ref={HoverIconRef}
-            setupThreeScene={setupThreeScene}
+            isHovering={isHovering}
           />
           <FristPage />
           <div id="scroll-container" className="center column">

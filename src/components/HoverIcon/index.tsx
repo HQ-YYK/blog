@@ -24,7 +24,7 @@ let sizes: any,
   currentBaseColor = '#FF923E'
 
 const Index = forwardRef(
-  ({ setupThreeScene }: { setupThreeScene: any },
+  ({ isHovering }: { isHovering: boolean },
     ref: React.Ref<any>
   ) => {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -266,17 +266,18 @@ const Index = forwardRef(
           element.addEventListener("mouseleave", () => {
             if (!sizes.touch) {
               setupDefault()
-              setIsHoveringCursorElement(true)
+              setIsHoveringCursorElement(false)
             }
           })
 
         }
       })
+
       window.addEventListener("mousemove", (event) => {
-        hoverIconElements.style.opacity = 1,
-          updatePosition(event)
+        hoverIconElements.style.opacity = 1
+        updatePosition(event)
         EventBus.emit("move")
-        // !isHoveringCursorElement && !raycaster.isHovering && setupDefault()
+        !isHoveringCursorElement && !isHovering && setupDefault()
       })
     }
 
@@ -299,7 +300,7 @@ const Index = forwardRef(
         const landingPageVisible = true
         if (
           isVisible ||
-          (!hidden && (cursorIsInsideDoc || landingPageVisible) && currentBaseColor !== color) && setupThreeScene().isHovering
+          (!hidden && (cursorIsInsideDoc || landingPageVisible) && currentBaseColor !== color) && isHovering
         ) {
           currentBaseColor = color;
           hoverIconElements.style.borderColor = color;

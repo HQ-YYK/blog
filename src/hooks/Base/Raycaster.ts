@@ -2,6 +2,7 @@
  * 光线投影
  */
 import { Camera, Object3D, Object3DEventMap, Scene } from "three";
+import { EventBus } from '@/hooks/Utils'
 import { PageEleProps } from '@/types/page'
 
 let objects: any,
@@ -60,6 +61,9 @@ const RaycasterFun = (
     pointer.x = (clientX / window.innerWidth) * 2 - 1;
     pointer.y = - (clientY / window.innerHeight) * 2 + 1;
   };
+  EventBus.on("move", onMouseMove)
+  EventBus.off("move", onMouseMove);
+
   const onClick = () => {
     positionTriggered = false
     triggerClick = true
@@ -69,7 +73,6 @@ const RaycasterFun = (
     isHovering,
 
     update,
-    onMouseMove,
     onClick
   }
 }
