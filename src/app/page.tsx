@@ -1,5 +1,4 @@
 "use client"
-
 import { useRef, useEffect, useState } from 'react'
 // 1. 导入three.js
 import * as THREE from 'three'
@@ -16,10 +15,14 @@ import Preloader from '../pages/loading/Preloader'
 
 import initFun from '../hooks/init'
 import { BgFun } from '../hooks/Base'
-import modelFun from '../hooks/model'
+import { LandingPageFun } from '../hooks/UI'
+import { FunSerialization } from '../hooks/Utils'
+import ModelFun from '../hooks/model'
 
 import './globals.css'
 import './index.css'
+
+let landingPageFun: any;
 
 export default function Home() {
   const webGlRef = useRef<HTMLDivElement>(null);
@@ -32,7 +35,8 @@ export default function Home() {
   let loadingProcessTimeout: any = null;
 
   const [progress, setProgress] = useState(0);
-  const [isHovering, setIsHovering] = useState(false)
+  const [raycaster, setRaycaster] = useState({})
+  const [sounds, setSounds] = useState({})
 
   const handleProgressUpdate = (loaded: number, total: number) => {
     if (Math.floor(loaded / total * 100) === 100) {
@@ -45,31 +49,50 @@ export default function Home() {
     }
   };
 
-  const setupThreeScene = () => {
+  const setupThreeScene = async () => {
     const {
-      renderer,
-      render,
-      scene,
-      isHovering,
-
-      onResize,
-      onClick
+      sizes,
+      rendererFun,
+      sceneFun,
+      raycasterFun,
+      soundsFun,
+      cameraFun
     } = initFun(
       THREE,
       {
         HoverIconRef: HoverIconRef
       }
     )
-    setIsHovering(isHovering)
-    BgFun(THREE, scene)
-    modelFun(THREE, scene, loadingManager)
+    const bgFun = BgFun(THREE, sceneFun.scene)
+    const modelFun = await ModelFun(
+      THREE,
+      sceneFun.scene,
+      loadingManager,
+      soundsFun
+    )
+
+
+    landingPageFun = LandingPageFun(
+      cameraFun,
+      sizes,
+      modelFun,
+      soundsFun,
+      bgFun,
+      rendererFun
+    )
+
+    sessionStorage.setItem('landingPageFun', JSON.stringify(landingPageFun, FunSerialization().funSerializer))
+
+    setRaycaster(raycasterFun)
+    setSounds(soundsFun)
 
     return {
-      renderer,
-      render,
-      onResize,
-      onClick,
-      isHovering
+      renderer: rendererFun.renderer,
+      cameraFun,
+      rendererFun,
+      raycasterFun,
+      modelFun,
+      landingPageFun
     }
   }
 
@@ -80,26 +103,46 @@ export default function Home() {
     };
 
     if (webGlRef.current) {
-      const {
-        renderer,
-        render,
-        onResize,
-        onClick,
-      } = setupThreeScene()
+      const fetchData = async () => {
+        const {
+          renderer,
+          cameraFun,
+          rendererFun,
+          raycasterFun,
+          modelFun,
+          landingPageFun
+        } = await setupThreeScene()
 
-      webGlRef.current?.appendChild(renderer.domElement)
+        webGlRef.current?.appendChild(renderer.domElement)
 
-      // 8.调用渲染函数
-      render()
+        landingPageFun && landingPageFun.init()
 
-      // 监听窗口大小变化事件
-      window.addEventListener('resize', onResize);
-      window.addEventListener('click', onClick);
-      return () => {
-        // 组件卸载时移除事件监听器
-        window.removeEventListener('resize', onResize);
-        window.removeEventListener('click', onClick);
-      };
+        // 7.定义一个渲染函数
+        const render = () => {
+          cameraFun.update()
+          rendererFun.update()
+          raycasterFun.update()
+          modelFun.update()
+
+          requestAnimationFrame(render)
+        }
+
+        const onResize = () => {
+          cameraFun.resize()
+          rendererFun.resize()
+        }
+        // 8.调用渲染函数
+        render()
+
+        // 监听窗口大小变化事件
+        window.addEventListener('resize', onResize);
+        return () => {
+          // 组件卸载时移除事件监听器
+          window.removeEventListener('resize', onResize);
+        };
+      }
+
+      fetchData()
     }
   }, [])
 
@@ -116,11 +159,15 @@ export default function Home() {
             className='main-webGl'
           />
 
-          <Header />
+          <Header
+            ref={headerRef}
+            sounds={sounds}
+          />
           {/* <Menu /> */}
           <HoverIcon
             ref={HoverIconRef}
-            isHovering={isHovering}
+            sounds={sounds}
+            raycaster={raycaster}
           />
           <FristPage />
           <div id="scroll-container" className="center column">

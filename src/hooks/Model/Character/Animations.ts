@@ -84,9 +84,9 @@ const AnimationsFun = async (
 
   actions.standingIdle.loop = false;
   actions.standingIdle.allowedOutsideLanding = true;
-  actions.standingIdle.timeScale = 0.5; // 时间缩放，控制动画播放速度
+  actions.standingIdle.timeScale = .5;
 
-  const play = (actionName: string, crossFadeDuration: number = 0.5): void => {
+  const play = (actionName: string, crossFadeDuration: number = .5): void => {
     const currentAction = actions[actionName];
     const previousAction = actions.current;
 
@@ -134,8 +134,7 @@ const AnimationsFun = async (
         )
         gsap.delayedCall(actions.wave._clip.duration - 1.7, () => {
           // this.experience.ui.landingPage.visible && faceSet.updateFace("default")
-        }
-        )
+        })
       }
       )
     gsap.delayedCall(0, () => play("wave"))
@@ -143,7 +142,7 @@ const AnimationsFun = async (
   }
 
   const { timeData } = TimeFun()
-  const updateAnimation = () => {
+  const update = () => {
     mixer && timeData.delta < 50 && mixer.update(timeData.delta * .001)
   }
 
@@ -153,7 +152,7 @@ const AnimationsFun = async (
 
     play,
     playIntroAnimation,
-    updateAnimation
+    update
   }
 }
 

@@ -1,5 +1,4 @@
 import './index.css'
-
 const Index = () => {
   return (
     <div id="landing-page" className="content-container landing-slow-transition">

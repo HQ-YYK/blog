@@ -2,7 +2,8 @@ import {
     SceneFun,
     CameraFun,
     RendererFun,
-    RaycasterFun
+    RaycasterFun,
+    SoundsFun,
 } from "./Base";
 import {
     SizesFun,
@@ -10,7 +11,6 @@ import {
 } from "./Utils";
 import { InitFunResult } from '@/types/init'
 import { PageEleProps } from '@/types/page'
-
 
 
 const initFun = (
@@ -30,7 +30,6 @@ const initFun = (
         sizes,
         timeData
     )
-    cameraFun.camera.position.set(0, 6, 10)
 
 
     // 4. 初始化渲染器
@@ -47,34 +46,21 @@ const initFun = (
         { HoverIconRef }
     )
 
-
-    // 7.定义一个渲染函数
-    const render = () => {
-        cameraFun.update()
-        rendererFun.update()
-        raycasterFun.update()
-
-        requestAnimationFrame(render)
-    }
-
-    const onResize = () => {
-        cameraFun.resize()
-        rendererFun.resize()
-    }
-
+    const soundsFun = SoundsFun(sizes)
 
     return {
-        // 渲染器
-        ...rendererFun,
-        // 渲染函数
-        render,
-        // 场景
-        ...sceneFun,
-        // 相机
-        ...cameraFun,
+        sizes,
 
-        ...raycasterFun,
-        onResize,
+        // 渲染器
+        rendererFun,
+        // 场景
+        sceneFun,
+        // 相机
+        cameraFun,
+
+        raycasterFun,
+
+        soundsFun,
     }
 }
 

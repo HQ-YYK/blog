@@ -49,7 +49,7 @@ const BgFun = (THREE: typeof import("three"), scene: Scene) => {
   updateColors()
 
   return {
-
+    material
   }
 }
 

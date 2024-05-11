@@ -1,3 +1,5 @@
+import { FunSerialization } from '@/hooks/Utils'
+
 import { gsap } from "gsap"
 
 
@@ -6,7 +8,9 @@ const IntervalsFun = async (
   resources: Record<string, string>,
   roomSet: any,
   faceSet: any,
-  animationsSet: any
+  animationsSet: any,
+  soundsFun: any,
+  modelDB: IDBDatabase,
 ) => {
   const blink = {
     intervalDuration: 5,
@@ -43,50 +47,58 @@ const IntervalsFun = async (
   let isLeft = true
 
   const scrollIntervalCall = gsap.delayedCall(Math.random() * 2 + 3, () => {
-    // // 检查着陆页是否可见且当前动画是否为"idle"
-    // const isLandingPageVisible = this.experience.ui.landingPage.visible;
-    // const isIdleAnimationPlaying = animationsSet.actions.current._clip.name === "idle";
+    const landingPageFunString = sessionStorage.getItem('landingPageFun')
+    const landingPageFun = landingPageFunString && JSON.parse(landingPageFunString, FunSerialization().funReviver)
 
-    // if (isLandingPageVisible && isIdleAnimationPlaying) {
-    //   // 如果满足条件，则滚动桌面
-    //   roomSet.scrollDesktop0();
+    const isLandingPageVisible = landingPageFun.visible;
+    const isIdleAnimationPlaying = animationsSet.actions.current._clip.name === "idle";
+    const isLandingAnimating = landingPageFun.isAnimating
 
-    //   // 以33%的概率再次触发滚动
-    //   if (Math.random() <= 0.33) {
-    //     // 创建稍后的滚动调用
-    //     const delayedScrollCall = delayedCall(0.7, () => {
-    //       // 检查是否可以再次滚动
-    //       const shouldScroll = !isLeft && !this.experience.ui.landingPage.isAnimating;
-    //       if (shouldScroll) {
-    //         roomSet.scrollDesktop0();
-    //       }
-    //     });
-    //   }
-    // }
+    if (isLandingPageVisible && isIdleAnimationPlaying) {
+      // 如果满足条件，则滚动桌面
+      roomSet.scrollDesktop0();
+
+      // 以33%的概率再次触发滚动
+      if (Math.random() <= 0.33) {
+        // 创建稍后的滚动调用
+        const delayedScrollCall = gsap.delayedCall(.7, () => {
+          // 检查是否可以再次滚动
+          const shouldScroll = !isLeft && !isLandingAnimating;
+          if (shouldScroll) {
+            roomSet.scrollDesktop0();
+          }
+        });
+        delayedScrollCall.play()
+      }
+    }
   });
 
   const scrollInterval = () => {
     scrollIntervalCall.play()
   }
+  scrollInterval()
 
   let leftDesktopIntervals: any[] = []
 
   const leftDesktopIntervalCall = gsap.delayedCall(12 + animationsSet.actions.leftDesktopAction._clip.duration + Math.random() * 4, () => {
-    // const isLandingPageVisible = this.experience.ui.landingPage.visible;
-    // const isLandingAnimating = this.experience.ui.landingPage.isAnimating;
+    const landingPageFunString = sessionStorage.getItem('landingPageFun')
+    const landingPageFun = landingPageFunString && JSON.parse(landingPageFunString, FunSerialization().funReviver)
 
-    // if (isLandingPageVisible && !isLandingAnimating) {
-    //   isLeft = true
-    //   leftDesktopIntervals.push(gsap.delayedCall(.18, () => animationsSet.play("leftDesktopAction", .3)))
-    //   roomSet.messagePopUp.show()
-    //   leftDesktopIntervals.push(gsap.delayedCall(1.7, () => {
-    //     if (!isLandingAnimating) this.sounds.play("longKeyboard")
-    //   }))
-    // }
-    // leftDesktopIntervals.push(gsap.delayedCall(animationsSet.actions.leftDesktopAction._clip.duration, () => {
-    //   isLandingAnimating || (isLeft = false,
-    //     animationsSet.play("idle", .35))
-    // }))
+    const isLandingPageVisible = landingPageFun.visible;
+    const isLandingAnimating = landingPageFun.isAnimating;
+
+    if (isLandingPageVisible && !isLandingAnimating) {
+      isLeft = true
+      leftDesktopIntervals.push(gsap.delayedCall(.18, () => animationsSet.play("leftDesktopAction", .3)))
+      roomSet.messagePopUp.show()
+      leftDesktopIntervals.push(gsap.delayedCall(1.7, () => {
+        if (!isLandingAnimating) soundsFun.play("longKeyboard")
+      }))
+    }
+    leftDesktopIntervals.push(gsap.delayedCall(animationsSet.actions.leftDesktopAction._clip.duration, () => {
+      isLandingAnimating || (isLeft = false,
+        animationsSet.play("idle", .35))
+    }))
   })
 
   const leftDesktopInterval = () => {
@@ -107,12 +119,15 @@ const IntervalsFun = async (
     }
   }
   const update = () => {
-    // const isLandingPageVisible = this.experience.ui.landingPage.visible;
-    // const isIdleAnimationPlaying = animationsSet.actions.current._clip.name === "idle";
-    // const leftDesktopAction = animationsSet.actions.current._clip.name === "left-desktop-action"
-    // if (isLandingPageVisible && (isIdleAnimationPlaying || leftDesktopAction)) {
-    //   this.mouse.updateMouseSync()
-    // }
+    const landingPageFunString = sessionStorage.getItem('landingPageFun')
+    const landingPageFun = landingPageFunString && JSON.parse(landingPageFunString, FunSerialization().funReviver)
+
+    const isLandingPageVisible = landingPageFun.visible;
+    const isIdleAnimationPlaying = animationsSet.actions.current._clip.name === "idle";
+    const leftDesktopAction = animationsSet.actions.current._clip.name === "left-desktop-action"
+    if (isLandingPageVisible && (isIdleAnimationPlaying || leftDesktopAction)) {
+      roomSet.mouse.updateMouseSync(modelDB)
+    }
   }
 
 

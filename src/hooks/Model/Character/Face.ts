@@ -9,7 +9,6 @@ const FaceFun = async (
     default: new THREE.TextureLoader().load(resources.characterDefaultFace),
     scared: new THREE.TextureLoader().load(resources.characterScaredFace),
     sleepy: new THREE.TextureLoader().load(resources.characterSleepyFace),
-    hurt: new THREE.TextureLoader().load(resources.characterHurtFace)
   }
   const material = new THREE.MeshBasicMaterial({
     map: textures.default,

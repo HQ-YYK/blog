@@ -1,9 +1,9 @@
-import gsap from "gsap";
+import gsap, { Power1, Power0 } from "gsap";
 
 const TonesFun = (
   THREE: typeof import("three"),
   roomModel: { children: any; add: any; },
-  resources: Record<string, string>
+  resources: Record<string, string>,
 ) => {
   const materials = [
     new THREE.SpriteMaterial({
@@ -34,42 +34,42 @@ const TonesFun = (
   })
 
   const moveSprite = (num: number) => {
-    // if (sounds.active) {
-    //   const sprite = sprites[num];
-    //   gsap.fromTo(sprite.material, {
-    //     opacity: 0
-    //   }, {
-    //     opacity: 1,
-    //     duration: 1
-    //   })
+    if (localStorage.getItem("soundActive") != "false") {
+      const sprite = sprites[num];
+      gsap.fromTo(sprite.material, {
+        opacity: 0
+      }, {
+        opacity: 1,
+        duration: 1
+      })
 
-    //   gsap.fromTo(sprite.material, {
-    //     opacity: 1
-    //   }, {
-    //     opacity: 0,
-    //     duration: .5,
-    //     delay: 2.5
-    //   })
-    //   gsap.fromTo(sprite.material, {
-    //     rotation: -.15
-    //   }, {
-    //     rotation: .15,
-    //     duration: 1,
-    //     repeat: 4,
-    //     yoyo: !0,
-    //     ease: Power1.easeInOut
-    //   })
-    //   gsap.fromTo(sprite.position, {
-    //     y: 2,
-    //     x: -1.9
-    //   }, {
-    //     y: 3.5,
-    //     x: -.9 - Math.random() * 2,
-    //     duration: 3,
-    //     ease: Power0.easeNone
-    //   })
-    // }
-    // gsap.delayedCall(3, () => gsap.delayedCall(2, () => moveSprite(num)))
+      gsap.fromTo(sprite.material, {
+        opacity: 1
+      }, {
+        opacity: 0,
+        duration: .5,
+        delay: 2.5
+      })
+      gsap.fromTo(sprite.material, {
+        rotation: -.15
+      }, {
+        rotation: .15,
+        duration: 1,
+        repeat: 4,
+        yoyo: !0,
+        ease: Power1.easeInOut
+      })
+      gsap.fromTo(sprite.position, {
+        y: 2,
+        x: -1.9
+      }, {
+        y: 3.5,
+        x: -.9 - Math.random() * 2,
+        duration: 3,
+        ease: Power0.easeNone
+      })
+    }
+    gsap.delayedCall(3, () => gsap.delayedCall(2, () => moveSprite(num)))
   }
 
   const startAnimations = () => {

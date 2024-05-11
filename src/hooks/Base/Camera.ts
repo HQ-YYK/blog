@@ -89,7 +89,7 @@ const CameraFun = (
         ease: Power1.easeInOut
       })
 
-      gsap.to(camera.position, {
+      gsap.to(camera.rotation, {
         x: targetWaypoint.rotation.x,
         y: targetWaypoint.rotation.y,
         z: targetWaypoint.rotation.z,

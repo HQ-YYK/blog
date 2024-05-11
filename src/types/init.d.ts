@@ -20,11 +20,10 @@ export interface Resources {
 }
 
 export interface InitFunResult {
-  renderer: THREE.WebGLRenderer;
-  render: () => void;
-  scene: THREE.Scene;
-  camera: THREE.PerspectiveCamera;
-  isHovering: boolean;
-  onResize: () => void;
-  onClick: () => void;
+  rendererFun: any;
+  sceneFun: any;
+  cameraFun: any;
+  raycasterFun: any;
+  soundsFun: any;
+  sizes: any;
 }

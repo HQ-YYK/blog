@@ -1,15 +1,19 @@
-import { Scene, Mesh, Group, Object3DEventMap, ShaderMaterial } from "three"
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { gsap, Power4 } from "gsap";
+import { Scene, Mesh, Group, Object3DEventMap, ShaderMaterial } from 'three'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { gsap, Power4 } from 'gsap'
 
-import { ExtendedObject3D } from "@/types/model";
+import { DB } from '@/hooks/Utils'
 
-import DesktopsFun from "./Desktops"
-import MouseFun from "./Mouse"
-import MessagePopUpFun from "./MessagePopUp"
-import TonesFun from "./Tones"
-import SpeakerFun from "./Speaker"
-import PenguinFun from "./Penguin";
+import { ExtendedObject3D } from '@/types/model'
+
+import DBData from '@/data/DB'
+
+import DesktopsFun from './Desktops'
+import MouseFun from './Mouse'
+import MessagePopUpFun from './MessagePopUp'
+import TonesFun from './Tones'
+import SpeakerFun from './Speaker'
+import PenguinFun from './Penguin'
 
 let baseModel: any,
   shelvingModel: any,
@@ -17,46 +21,53 @@ let baseModel: any,
   blackboardModel: any,
   plantModel: any
 
-
 const RoomFun = async (
-  THREE: typeof import("three"),
+  THREE: typeof import('three'),
   scene: Scene,
   gltfLoader: GLTFLoader,
   resources: Record<string, string>,
-  roomShadowSet: { roomShadowModel: Group<Object3DEventMap>; material: ShaderMaterial; } | undefined
+  roomShadowSet: any,
+  soundsFun: any,
+  modelDB: IDBDatabase
 ) => {
-
   /**
    * 加载desktops
-   * @param baseModel 
-   * @returns 
+   * @param baseModel
+   * @returns
    */
-  const desktopsFun = (baseModel: { children: any[]; add: (arg0: Mesh<any, any, any>) => void; }) => {
+  const desktopsFun = (baseModel: {
+    children: any[]
+    add: (arg0: Mesh<any, any, any>) => void
+  }) => {
     return DesktopsFun(THREE, baseModel, resources)
   }
 
   /**
    * 加载mouse
-   * @param baseModel 
-   * @param roomModel 
+   * @param baseModel
+   * @param roomModel
    */
-  const mouseFun = (baseModel: { add: (arg0: ExtendedObject3D) => void; }, roomModel: { children: any[]; }) => {
-    return MouseFun(baseModel, roomModel)
+  const mouseFun = (
+    THREE: typeof import('three'),
+    baseModel: { add: (arg0: ExtendedObject3D) => void },
+    roomModel: { children: any[] }
+  ) => {
+    return MouseFun(THREE, baseModel, roomModel)
   }
 
   /**
    * 加载messagePopUp
-   * @param roomModel 
+   * @param roomModel
    */
-  const messagePopUpFun = (roomModel: Group<Object3DEventMap>, desktops: any) => {
+  const messagePopUpFun = (roomModel: any, desktops: any) => {
     return MessagePopUpFun(THREE, roomModel, resources, desktops)
   }
 
   /**
    * 加载tones
-   * @param roomModel 
+   * @param roomModel
    */
-  const tonesFun = (roomModel: Group<Object3DEventMap>) => {
+  const tonesFun = (roomModel: any) => {
     return TonesFun(THREE, roomModel, resources)
   }
 
@@ -64,41 +75,69 @@ const RoomFun = async (
     return SpeakerFun(THREE, speakerModel)
   }
 
-  const penguinFun = (penguinModel: any, roomModel: Group<Object3DEventMap>) => {
+  const penguinFun = (penguinModel: any, roomModel: any) => {
     return PenguinFun(THREE, resources, penguinModel, roomModel)
   }
 
+  const getBodyModel = await DB().getDataByKey(
+    modelDB,
+    DBData.storeNameList[0].name,
+    DBData.storeNameList[0].uuidList[1].uuid
+  )
+  const objectLoader = new THREE.ObjectLoader()
   const model = await gltfLoader.loadAsync(resources.roomModel)
-  const roomModel = model.scene
+  const roomModel = getBodyModel
+    ? objectLoader.parse(getBodyModel.data)
+    : model.scene
 
   // 模型
   if (!roomModel) return
-  baseModel = roomModel.children.find((child: { name: string; }) => child.name === 'room-base')
-  shelvingModel = roomModel.children.find((child: { name: string; }) => child.name === "shelving")
-  pictureModel = roomModel.children.find((child: { name: string; }) => child.name === "picture")
-  blackboardModel = roomModel.children.find((child: { name: string; }) => child.name === "blackboard")
-  plantModel = roomModel.children.find((child: { name: string; }) => child.name === "plant")
-  const chairModel = roomModel.children.find((child: { name: string; }) => child.name === 'chair');
-  const speakerModel = roomModel.children.find((child: { name: string; }) => child.name === 'speaker');
-  const penguinModel = roomModel.children.find((child: { name: string; }) => child.name === 'penguin');
+  baseModel = roomModel.children.find(
+    (child: { name: string }) => child.name === 'room-base'
+  )
+  shelvingModel = roomModel.children.find(
+    (child: { name: string }) => child.name === 'shelving'
+  )
+  pictureModel = roomModel.children.find(
+    (child: { name: string }) => child.name === 'picture'
+  )
+  blackboardModel = roomModel.children.find(
+    (child: { name: string }) => child.name === 'blackboard'
+  )
+  plantModel = roomModel.children.find(
+    (child: { name: string }) => child.name === 'plant'
+  )
+  const chairModel = roomModel.children.find(
+    (child: { name: string }) => child.name === 'chair'
+  )
+  const speakerModel = roomModel.children.find(
+    (child: { name: string }) => child.name === 'speaker'
+  )
+  const penguinModel = roomModel.children.find(
+    (child: { name: string }) => child.name === 'penguin'
+  )
 
-  const desktopPlane0 = roomModel.children.find((child: { name: string; }) => child.name === 'desktop-plane-0');
-  const desktopPlane1 = roomModel.children.find((child: { name: string; }) => child.name === 'desktop-plane-1');
+  const desktopPlane0 = roomModel.children.find(
+    (child: { name: string }) => child.name === 'desktop-plane-0'
+  )
+  const desktopPlane1 = roomModel.children.find(
+    (child: { name: string }) => child.name === 'desktop-plane-1'
+  )
 
-  if (speakerModel) baseModel.add(speakerModel);
-  if (penguinModel) baseModel.add(penguinModel);
-  if (chairModel) baseModel.add(chairModel);
-  if (desktopPlane0) baseModel.add(desktopPlane0);
-  if (desktopPlane1) baseModel.add(desktopPlane1);
+  if (speakerModel) baseModel.add(speakerModel)
+  if (penguinModel) baseModel.add(penguinModel)
+  if (chairModel) baseModel.add(chairModel)
+  if (desktopPlane0) baseModel.add(desktopPlane0)
+  if (desktopPlane1) baseModel.add(desktopPlane1)
 
-  roomModel.rotation.y = - Math.PI / 4 * 3
-  roomModel.position.y -= 1.0;
+  roomModel.rotation.y = -Math.PI / 2
+  roomModel.position.y -= 5.7
 
-  scene.add(roomModel);
+  scene.add(roomModel)
 
   // 纹理
   const texture = new THREE.TextureLoader().load(resources.bakedRoomTexture)
-  texture.colorSpace = THREE.SRGBColorSpace;
+  texture.colorSpace = THREE.SRGBColorSpace
   texture.flipY = false
   // Materials
   const material = new THREE.MeshBasicMaterial({
@@ -114,112 +153,144 @@ const RoomFun = async (
 
   roomShadowSet && roomModel.add(roomShadowSet.roomShadowModel)
 
+  const bounceIn = (delay: number = 0, withShelving: boolean = false) => {
+    gsap.fromTo(
+      baseModel.scale,
+      {
+        x: 0,
+        y: 0,
+        z: 0,
+      },
+      {
+        x: 1,
+        y: 1,
+        z: 1,
+        duration: 0.5,
+        ease: Power4.easeOut,
+        delay: delay,
+      }
+    )
 
-  const bounceInAnimation = (delay: number = 0, withShelving: boolean = false) => {
-    gsap.fromTo(baseModel.scale, {
-      x: 0,
-      y: 0,
-      z: 0
-    }, {
-      x: 1,
-      y: 1,
-      z: 1,
-      duration: 0.5,
-      ease: Power4.easeOut,
-      delay: delay
-    });
-
-    roomShadowSet && gsap.fromTo(roomShadowSet.material.uniforms.uOpacity, {
-      value: 0
-    }, {
-      value: 1,
-      duration: 0.4,
-      delay: delay + (withShelving ? 0.5 : 0.23),
-      ease: Expo.easeOut
-    });
+    roomShadowSet &&
+      gsap.fromTo(
+        roomShadowSet.material.uniforms.uOpacity,
+        {
+          value: 0,
+        },
+        {
+          value: 1,
+          duration: 0.4,
+          delay: delay + (withShelving ? 0.5 : 0.23),
+          ease: Expo.easeOut,
+        }
+      )
 
     if (withShelving) {
-      gsap.fromTo(shelvingModel.scale, {
-        x: 0,
-        y: 0,
-        z: 0
-      }, {
-        x: 1,
-        y: 1,
-        z: 1,
-        duration: 0.5,
-        ease: Power4.easeOut,
-        delay: delay + 0.25
-      });
+      gsap.fromTo(
+        shelvingModel.scale,
+        {
+          x: 0,
+          y: 0,
+          z: 0,
+        },
+        {
+          x: 1,
+          y: 1,
+          z: 1,
+          duration: 0.5,
+          ease: Power4.easeOut,
+          delay: delay + 0.25,
+        }
+      )
 
-      gsap.fromTo(pictureModel.scale, {
-        x: 0,
-        y: 0,
-        z: 0
-      }, {
-        x: 1,
-        y: 1,
-        z: 1,
-        duration: 0.5,
-        ease: Power4.easeOut,
-        delay: delay + 0.32
-      });
+      gsap.fromTo(
+        pictureModel.scale,
+        {
+          x: 0,
+          y: 0,
+          z: 0,
+        },
+        {
+          x: 1,
+          y: 1,
+          z: 1,
+          duration: 0.5,
+          ease: Power4.easeOut,
+          delay: delay + 0.32,
+        }
+      )
 
-      gsap.fromTo(blackboardModel.scale, {
-        x: 0,
-        y: 0,
-        z: 0
-      }, {
-        x: 1,
-        y: 1,
-        z: 1,
-        duration: 0.5,
-        ease: Power4.easeOut,
-        delay: delay + 0.39
-      });
+      gsap.fromTo(
+        blackboardModel.scale,
+        {
+          x: 0,
+          y: 0,
+          z: 0,
+        },
+        {
+          x: 1,
+          y: 1,
+          z: 1,
+          duration: 0.5,
+          ease: Power4.easeOut,
+          delay: delay + 0.39,
+        }
+      )
 
-      gsap.fromTo(plantModel.scale, {
-        x: 0,
-        y: 0,
-        z: 0
-      }, {
-        x: 1,
-        y: 1,
-        z: 1,
-        duration: 0.5,
-        ease: Power4.easeOut,
-        delay: delay + 0.46
-      });
+      gsap.fromTo(
+        plantModel.scale,
+        {
+          x: 0,
+          y: 0,
+          z: 0,
+        },
+        {
+          x: 1,
+          y: 1,
+          z: 1,
+          duration: 0.5,
+          ease: Power4.easeOut,
+          delay: delay + 0.46,
+        }
+      )
     }
-  };
+  }
 
-  const bounceOutAnimation = (delay: number = 0) => {
-    gsap.fromTo(baseModel.scale, {
-      x: 1,
-      y: 1,
-      z: 1
-    }, {
-      x: 0,
-      y: 0,
-      z: 0,
-      duration: 0.5,
-      ease: Power4.easeIn,
-      delay: delay
-    });
+  const bounceOut = (delay: number = 0) => {
+    gsap.fromTo(
+      baseModel.scale,
+      {
+        x: 1,
+        y: 1,
+        z: 1,
+      },
+      {
+        x: 0,
+        y: 0,
+        z: 0,
+        duration: 0.5,
+        ease: Power4.easeIn,
+        delay: delay,
+      }
+    )
 
-
-    roomShadowSet && gsap.fromTo(roomShadowSet.material.uniforms.uOpacity, {
-      value: 1
-    }, {
-      value: 0,
-      duration: 0.15,
-      delay: delay + 0.25
-    });
+    roomShadowSet &&
+      gsap.fromTo(
+        roomShadowSet.material.uniforms.uOpacity,
+        {
+          value: 1,
+        },
+        {
+          value: 0,
+          duration: 0.15,
+          delay: delay + 0.25,
+        }
+      )
   }
 
   const desktops = desktopsFun(baseModel)
 
-  const mouse = mouseFun(baseModel, roomModel)
+  const mouse = mouseFun(THREE, baseModel, roomModel)
 
   const messagePopUp = messagePopUpFun(roomModel, desktops)
 
@@ -230,18 +301,22 @@ const RoomFun = async (
   const penguin = penguinFun(penguinModel, roomModel)
 
   const scrollDesktop0 = () => {
-    // 生成一个随机的滚动速度，范围在 -0.25 到 0.25 之间
-    const randomSpeed = Math.random() * -0.5 + 0.25;
+    const randomSpeed = Math.random() * -0.5 + 0.25
 
-    // 使用 GSAP 来动画滚动
     gsap.to(new THREE.TextureLoader().load(resources.desktop0).offset, {
       y: randomSpeed, // 在 y 方向上滚动
-      duration: 1 // 滚动持续时间为 1 秒
-    });
+      duration: 1, // 滚动持续时间为 1 秒
+    })
 
-    // 播放鼠标滚轮音效
-    // this.sounds.play("mouseWheel");
+    soundsFun.play('mouseWheel')
   }
+
+  !getBodyModel &&
+    (await DB().addData(modelDB, 'model', {
+      uuid: DBData.storeNameList[0].uuidList[1].uuid,
+      name: DBData.storeNameList[0].uuidList[1].name,
+      data: roomModel.toJSON(),
+    }))
 
   return {
     roomModel,
@@ -252,8 +327,8 @@ const RoomFun = async (
     speaker,
     penguin,
 
-    bounceInAnimation,
-    bounceOutAnimation,
+    bounceIn,
+    bounceOut,
     scrollDesktop0,
   }
 }
