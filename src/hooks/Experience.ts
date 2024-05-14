@@ -16,7 +16,7 @@ import { resourcesData } from '@/data/Resources'
 
 export default class Experience {
   static instance: Experience
-  targetElement: any
+  canvas: any
   gestures: any
   sounds: any
   sizes: any
@@ -35,12 +35,7 @@ export default class Experience {
       return Experience.instance
     }
     Experience.instance = this
-    this.targetElement = targetElement
-
-    if (!this.targetElement) {
-      console.warn("Missing 'targetElement' property")
-      return
-    }
+    this.canvas = targetElement
 
     this.gestures = new Gestures()
     this.sounds = new Sounds()

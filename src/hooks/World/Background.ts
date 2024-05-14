@@ -47,6 +47,7 @@ export default class Background {
       this.colors.topRight.instance.set(this.colors.topRight.value)
       this.colors.bottomLeft.instance.set(this.colors.bottomLeft.value)
       this.colors.bottomRight.instance.set(this.colors.bottomRight.value)
+
       const array = new Float32Array(4 * 3)
       array[0] = this.colors.topLeft.instance.r
       array[1] = this.colors.topLeft.instance.g

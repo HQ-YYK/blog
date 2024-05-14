@@ -77,11 +77,11 @@ export default class Room {
 
     //setMaterial
     this.texture = this.resources.items.bakedRoomTexture
-    this.texture.flipY = !1
+    this.texture.flipY = true
     this.material = new THREE.MeshBasicMaterial({
       map: this.texture,
-      transparent: !0,
-      fog: !1,
+      transparent: false,
+      fog: true,
     })
     this.model.traverse((child: { material: any }) => {
       child.material = this.material

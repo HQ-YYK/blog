@@ -1,5 +1,6 @@
 'use client'
 import { useEffect } from 'react'
+import Image from 'next/image'
 import Experience from '@/hooks/Experience'
 
 import './globals.css'
@@ -120,7 +121,7 @@ export default function Home() {
           <div className="scroll-border-container">
             <div className="scroll-wheel"></div>
           </div>
-          <img
+          <Image
             className="scroll-touch-icon hide"
             src="/touch-icon.png"
             alt="scroll mouse icon wheel"
@@ -135,7 +136,7 @@ export default function Home() {
               className="scroll-wheel"
               style={{ background: 'rgb(255, 255, 255)' }}></div>
           </div>
-          <img
+          <Image
             className="scroll-touch-icon hide"
             src="/touch-icon.png"
             style={{ filter: 'brightness(100)' }}
@@ -162,44 +163,44 @@ export default function Home() {
               tabIndex={-1}
               target="_blank"
               href="https://twitter.com/DavidHckh">
-              <img
+              <Image
                 className="social-icon"
                 src="/icons/twitter-icon.png"
                 alt="Twitter Menu Icon"
                 height="28"
-                width="28"></img>
+                width="28"></Image>
             </a>
             <a
               tabIndex={-1}
               target="_blank"
               href="https://github.com/davidhckh">
-              <img
+              <Image
                 className="social-icon"
                 alt="Github Menu Icon"
                 height="28"
                 width="28"
-                src="/icons/github-icon.png"></img>
+                src="/icons/github-icon.png"></Image>
             </a>
             <a
               tabIndex={-1}
               target="_blank"
               href="https://www.linkedin.com/in/david-heckhoff-1ba8a622a/">
               {' '}
-              <img
+              <Image
                 className="social-icon "
                 alt="Linkedin Menu Icon"
                 height="28"
                 width="28"
-                src="/icons/linkedin-icon.png"></img>
+                src="/icons/linkedin-icon.png"></Image>
             </a>
             <a tabIndex={-1} href="mailto:david.heckhoff@gmail.com">
               {' '}
-              <img
+              <Image
                 className="social-icon"
                 alt="Email Menu Icon"
                 height="28"
                 width="28"
-                src="/icons/mail-icon.png"></img>
+                src="/icons/mail-icon.png"></Image>
             </a>
           </div>
           <hr />

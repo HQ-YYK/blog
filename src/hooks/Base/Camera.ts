@@ -15,23 +15,25 @@ export default class Camera {
     x: number
     y: number
   }
+  canvas: any
 
   constructor() {
     this.parallax = parallax
     this.experience = new Experience()
     this.sizes = this.experience.sizes
     this.scene = this.experience.scene
+    this.canvas = this.experience.canvas
     this.time = this.experience.time
     // setInstance
-    ;(this.instance = new THREE.PerspectiveCamera(
+    this.instance = new THREE.PerspectiveCamera(
       38,
       this.sizes.width / this.sizes.height,
       0.1,
       100
-    )),
-      (this.cameraParallaxGroup = new THREE.Group()),
-      this.cameraParallaxGroup.add(this.instance),
-      this.scene.add(this.cameraParallaxGroup)
+    )
+    this.cameraParallaxGroup = new THREE.Group()
+    this.cameraParallaxGroup.add(this.instance)
+    this.scene.add(this.cameraParallaxGroup)
 
     this.cursor = cursor
     this.setCursor()
