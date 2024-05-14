@@ -30,7 +30,7 @@ export default class Penguin {
       map: this.resources.items.heartTexture,
       alphaTest: 0.1,
       opacity: 0,
-      fog: !1,
+      fog: false,
       rotation: 0.2,
     })
     this.heart = new THREE.Sprite(this.heartMaterial)
@@ -43,7 +43,7 @@ export default class Penguin {
     this.room.model.add(this.heart)
   }
   jump() {
-    if (this.isJumping) {
+    if (!this.isJumping) {
       this.isJumping = true
       gsap.delayedCall(0.8, () => (this.isJumping = false))
 

@@ -20,19 +20,19 @@ export default class Tones {
         map: this.resources.items.tone0Texture,
         alphaTest: 0.1,
         opacity: 0,
-        fog: !1,
+        fog: false,
       }),
       new THREE.SpriteMaterial({
         map: this.resources.items.tone1Texture,
         alphaTest: 0.1,
         opacity: 0,
-        fog: !1,
+        fog: false,
       }),
       new THREE.SpriteMaterial({
         map: this.resources.items.tone2Texture,
         alphaTest: 0.1,
         opacity: 0,
-        fog: !1,
+        fog: false,
       }),
     ]
 

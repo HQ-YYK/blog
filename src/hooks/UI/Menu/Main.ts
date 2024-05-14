@@ -215,21 +215,21 @@ export default class Main extends EventBus {
     gsap.to(this.labBackground.material.uniforms.uOffset, {
       value: 0,
       duration: 0.9,
-    }),
-      gsap.to(this.domElements.scrollContainer, {
-        y: 0,
-        duration: 0.9,
-        ease: Power2.easeInOut,
-      }),
-      gsap.to(this.domElements.logoWhiteBackground, {
-        y: -window.innerHeight,
-        duration: 0.9,
-        ease: Power2.easeInOut,
-      }),
-      this.waypoints.moveToWaypoint('lab-menu'),
-      this.sounds.muteGroup('lab', false, 0.4),
-      this.character.body.model.position.y != -18.95 &&
-        this.experience.ui.about.animations.resetCharacterToPosition()
+    })
+    gsap.to(this.domElements.scrollContainer, {
+      y: 0,
+      duration: 0.9,
+      ease: Power2.easeInOut,
+    })
+    gsap.to(this.domElements.logoWhiteBackground, {
+      y: -window.innerHeight,
+      duration: 0.9,
+      ease: Power2.easeInOut,
+    })
+    this.waypoints.moveToWaypoint('lab-menu')
+    this.sounds.muteGroup('lab', false, 0.4)
+    this.character.body.model.position.y != -18.95 &&
+      this.experience.ui.about.animations.resetCharacterToPosition()
   }
   focusContactScene() {
     gsap.to(this.labBackground.material.uniforms.uOffset, {

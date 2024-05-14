@@ -233,12 +233,12 @@ export default class LandingPage extends EventBus {
         ease: Power2.easeInOut,
         duration: this.scrollAnimationDuration,
       })
-      this.renderer.instance.setClearColor('#F5EFE6'),
-        gsap.to(this.character.body.model.position, {
-          y: -5.7,
-          duration: this.scrollAnimationDuration,
-          ease: Power2.easeInOut,
-        })
+      this.renderer.instance.setClearColor('#F5EFE6')
+      gsap.to(this.character.body.model.position, {
+        y: -5.7,
+        duration: this.scrollAnimationDuration,
+        ease: Power2.easeInOut,
+      })
       this.character.animations.play('idle', 0.7)
       this.experience.world.landingPage.mouse.moveToIdleStartPositon()
       this.character.face.material.map = this.character.face.textures.default

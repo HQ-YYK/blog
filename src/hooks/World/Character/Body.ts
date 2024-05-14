@@ -170,7 +170,7 @@ export default class Body {
   deactiveFrustumCulling() {
     this.armature.traverse(
       (child: { type: string; frustumCulled: boolean }) => {
-        child.type === 'SkinnedMesh' && (child.frustumCulled = !1)
+        child.type === 'SkinnedMesh' && (child.frustumCulled = false)
       }
     )
   }
@@ -271,7 +271,7 @@ export default class Body {
   updateToWireframeMaterial(child: THREE.Mesh & ExtendedObject3D) {
     {
       child.name === 'face'
-        ? (child.visible = !1)
+        ? (child.visible = false)
         : (child.originalMaterial || (child.originalMaterial = child.material),
           (child.material = this.materials.wireframeMaterial))
     }

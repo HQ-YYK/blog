@@ -16,11 +16,12 @@ export default class Speaker {
     window.requestAnimationFrame(() => {
       const menu = this.experience.ui.menu.main
       menu.on('open', () => {
-        ;(this.model.hoverIcon = null), (this.model.onClick = null)
+        this.model.hoverIcon = null
+        this.model.onClick = null
       })
       menu.on('hide', () => {
-        ;(this.model.hoverIcon = 'pointer'),
-          (this.model.onClick = () => this.clickEvent())
+        this.model.hoverIcon = 'pointer'
+        this.model.onClick = () => this.clickEvent()
       })
     })
   }

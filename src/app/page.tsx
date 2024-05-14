@@ -125,6 +125,8 @@ export default function Home() {
             className="scroll-touch-icon hide"
             src="/touch-icon.png"
             alt="scroll mouse icon wheel"
+            width={38}
+            height={38}
           />
         </div>
 
@@ -140,6 +142,8 @@ export default function Home() {
             className="scroll-touch-icon hide"
             src="/touch-icon.png"
             style={{ filter: 'brightness(100)' }}
+            width={38}
+            height={38}
             alt="scroll mouse icon wheel"
           />
         </div>
@@ -185,7 +189,6 @@ export default function Home() {
               tabIndex={-1}
               target="_blank"
               href="https://www.linkedin.com/in/david-heckhoff-1ba8a622a/">
-              {' '}
               <Image
                 className="social-icon "
                 alt="Linkedin Menu Icon"
@@ -194,7 +197,6 @@ export default function Home() {
                 src="/icons/linkedin-icon.png"></Image>
             </a>
             <a tabIndex={-1} href="mailto:david.heckhoff@gmail.com">
-              {' '}
               <Image
                 className="social-icon"
                 alt="Email Menu Icon"

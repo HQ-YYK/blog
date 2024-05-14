@@ -1,6 +1,7 @@
 import EventBus from '@/hooks/Utils/EventBus'
 import Experience from '../Experience'
 import { gsap, Power3 } from 'gsap'
+import { hoverElementsData } from '@/data/Hover'
 
 export default class HoverIcon extends EventBus {
   domElements: {
@@ -28,58 +29,7 @@ export default class HoverIcon extends EventBus {
       colorSwitchContainer: document.getElementById('hover-icon-color-switch'),
       aboutSection: document.getElementById('about-section'),
     }
-    this.hoverElements = [
-      {
-        class: '.menu-item',
-        type: 'circle',
-        color: '#FF923E',
-      },
-      {
-        class: '.work-item-gray-button',
-        type: 'pointer',
-        color: '#091434',
-      },
-      {
-        class: '.small-button',
-        type: 'pointer',
-        color: '#091434',
-      },
-      {
-        class: '#landing-cta-button',
-        type: 'pointer',
-        color: '#091434',
-      },
-      {
-        class: '#landing-cta-button',
-        type: 'pointer',
-        color: '#091434',
-      },
-      {
-        class: '#logo-click-container',
-        type: 'pointer',
-        color: '#FF923E',
-      },
-      {
-        class: '.overlay-button',
-        type: 'pointer',
-        color: '#091434',
-      },
-      {
-        class: '.work-navigation-button',
-        type: 'pointer',
-        color: '#091434',
-      },
-      {
-        class: '.work-item-container',
-        type: 'pointer',
-        color: '#091434',
-      },
-      {
-        class: 'a',
-        type: 'pointer',
-        color: '#FF923E',
-      },
-    ]
+    this.hoverElements = hoverElementsData
     this.currentBaseColor = '#FF923E'
     this.cursorIsInsideDoc = true
     this.experience = new Experience()
@@ -88,7 +38,7 @@ export default class HoverIcon extends EventBus {
     this.landingPage = this.experience.ui.landingPage
     this.intro = this.experience.ui.intro
     this.isHoveringCursorElement = false
-    this.currentIcon = 'default'
+    this.currentIcon = 'pointer'
     this.setupDefault()
     this.setCursorLeavesDoc()
     this.setHoverColorSwitchHeight()
@@ -131,16 +81,16 @@ export default class HoverIcon extends EventBus {
           }
         })
       }
-    }),
-      window.addEventListener('mousemove', (event: MouseEvent) => {
-        if (!this.domElements.icon) return
-        this.domElements.icon.style.opacity = '1'
-        this.updatePosition(event)
-        this.trigger('move', [], event)
-        !this.isHoveringCursorElement &&
-          !this.experience.raycaster.isHovering &&
-          this.setupDefault()
-      })
+    })
+    window.addEventListener('mousemove', (event: MouseEvent) => {
+      if (!this.domElements.icon) return
+      this.domElements.icon.style.opacity = '1'
+      this.updatePosition(event)
+      this.trigger('move', [], event)
+      !this.isHoveringCursorElement &&
+        !this.experience.raycaster.isHovering &&
+        this.setupDefault()
+    })
   }
   updatePosition(event: MouseEvent) {
     this.sizes.touch ||
@@ -229,9 +179,9 @@ export default class HoverIcon extends EventBus {
     }
   }
   setupPointer(target?: any, element?: any) {
-    if (this.currentIcon != 'pointer' && target) {
+    if (this.currentIcon != 'pointer') {
       const isWorkItemContainer =
-        target.className === '.work-item-container'
+        target && target.className === '.work-item-container'
           ? element?.classList.contains('work-inactive-item-container')
           : true
 
@@ -240,7 +190,7 @@ export default class HoverIcon extends EventBus {
         : true
 
       const isWorkItemGrayButton =
-        target.className === '.work-item-gray-button'
+        target && target.className === '.work-item-gray-button'
           ? element?.classList.contains('gray-hover')
           : true
 
@@ -255,9 +205,8 @@ export default class HoverIcon extends EventBus {
           this.domElements.icon.style.borderWidth = '5px'
           this.domElements.icon.style.height = '18px'
           this.domElements.icon.style.width = '18px'
-          this.domElements.icon.style.borderColor = target.color
-            ? target.color
-            : '#091434'
+          this.domElements.icon.style.borderColor =
+            target && target.color ? target.color : '#091434'
 
           this.domElements.icon.style.background = 'transparent'
           if (!this.domElements.content) return

@@ -36,7 +36,7 @@ export default class RoomShadow {
           value: this.shadowTexture,
         },
         uColor: {
-          value: new THREE.Color('#c4a37e'),
+          value: new THREE.Color(this.parameters.color),
         },
         uOpacity: {
           value: 1,
@@ -46,12 +46,8 @@ export default class RoomShadow {
       fragmentShader: Uc, // 片元着色器
     })
 
-    this.model.traverse((child: { name: string }) => {
-      if (child.name === 'shadowCatcher') {
-        if (child instanceof THREE.Mesh) {
-          child.material = this.material
-        }
-      }
-    })
+    this.model.children.find(
+      (child: { name: string }) => child.name === 'shadowCatcher'
+    ).material = this.material
   }
 }
