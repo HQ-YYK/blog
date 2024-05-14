@@ -1,0 +1,1 @@
+self.__BUILD_MANIFEST={__rewrites:{afterFiles:[],beforeFiles:[],fallback:[]},"/_error":["static/chunks/pages/_error-084315d3b19282fb.js"],"/loading/Preloader":["static/css/5880fa0b77f697ba.css","static/chunks/pages/loading/Preloader-c1965d93563e693c.js"],sortedPages:["/_app","/_error","/loading/Preloader"]},self.__BUILD_MANIFEST_CB&&self.__BUILD_MANIFEST_CB();

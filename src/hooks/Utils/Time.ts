@@ -1,33 +1,33 @@
+import EventBus from './EventBus'
 
+export default class Time extends EventBus {
+  start: number
+  current: number
+  elapsed: number
+  delta: number
+  hiddenDelta: number
 
-const TimeFun = () => {
-  const timeData = {
-    start: 0,
-    current: 0,
-    elapsed: 0,
-    delta: 16,
-    hiddenDelta: 0
-  }
-
-  const Timetick = () => {
-    const current = Date.now()
-    timeData.delta = current - timeData.current
-    timeData.current = current
-    timeData.elapsed = timeData.current - timeData.start
+  constructor() {
+    super()
+    this.start = Date.now()
+    this.current = this.start
+    this.elapsed = 0
+    this.delta = 16
+    this.hiddenDelta = 0
 
     window.requestAnimationFrame(() => {
-      Timetick()
+      this.tick()
     })
   }
 
-  window.requestAnimationFrame(() => {
-    Timetick()
-  })
-
-  return {
-    timeData,
-    Timetick
+  tick() {
+    const current = Date.now()
+    this.delta = current - this.current
+    this.current = current
+    this.elapsed = this.current - this.start
+    this.trigger('tick')
+    window.requestAnimationFrame(() => {
+      this.tick()
+    })
   }
 }
-
-export default TimeFun

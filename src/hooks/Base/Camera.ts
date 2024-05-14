@@ -1,117 +1,73 @@
-import { Scene } from "three"
-import EventBus from '@/hooks/Utils/EventBus';
-import { Sizes } from '@/types/init'
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"
-import { gsap, Power1 } from "gsap";
-import { cursor, parallax, waypoints } from '@/data/Camera'
+import * as THREE from 'three'
+import Experience from '@/hooks/Experience'
 
-const tweens: any[] = []
+import { cursor, parallax } from '@/data/Camera'
 
-const CameraFun = (
-  THREE: typeof import("three"),
-  scene: Scene,
-  sizes: Sizes,
-  timeData: any,
-  controls?: OrbitControls,
-) => {
+export default class Camera {
+  parallax: { intensity: number; speed: number; enabled: boolean }
+  experience: Experience
+  sizes: any
+  scene: any
+  time: any
+  instance: THREE.PerspectiveCamera
+  cameraParallaxGroup: THREE.Group<THREE.Object3DEventMap>
+  cursor: {
+    x: number
+    y: number
+  }
 
-  // init camera
-  const camera = new THREE.PerspectiveCamera(
-    38,
-    sizes.width / sizes.height,
-    .1,
-    100
-  )
-  const cameraParallaxGroup = new THREE.Group()
-  cameraParallaxGroup.add(camera);
-  scene.add(cameraParallaxGroup);
+  constructor() {
+    this.parallax = parallax
+    this.experience = new Experience()
+    this.sizes = this.experience.sizes
+    this.scene = this.experience.scene
+    this.time = this.experience.time
+    // setInstance
+    ;(this.instance = new THREE.PerspectiveCamera(
+      38,
+      this.sizes.width / this.sizes.height,
+      0.1,
+      100
+    )),
+      (this.cameraParallaxGroup = new THREE.Group()),
+      this.cameraParallaxGroup.add(this.instance),
+      this.scene.add(this.cameraParallaxGroup)
 
-  // set cursor
-  const setCursor = () => {
-    window.addEventListener("mousemove", event => {
-      cursor.x = event.clientX / sizes.width - .5
-      cursor.y = event.clientY / sizes.height - .5
+    this.cursor = cursor
+    this.setCursor()
+  }
+
+  setCursor() {
+    window.addEventListener('mousemove', (e) => {
+      this.cursor.x = e.clientX / this.sizes.width - 0.5
+      this.cursor.y = e.clientY / this.sizes.height - 0.5
     })
   }
-  setCursor()
 
-  const resize = () => {
-    camera.aspect = sizes.width / sizes.height;
-    camera.updateProjectionMatrix();
+  resize() {
+    this.instance.aspect = this.sizes.width / this.sizes.height
+    this.instance.updateProjectionMatrix()
+  }
+  update() {
+    !this.sizes.touch && this.parallax.enabled && this.updateParallax()
   }
 
-  const update = () => {
-    controls && controls.update()
-    !sizes.touch && parallax.enabled && updateParallax()
-  }
+  updateParallax() {
+    const dx = this.cursor.x * this.parallax.intensity
+    const dy = -this.cursor.y * this.parallax.intensity
 
-  const updateParallax = () => {
-    const dx = cursor.x * parallax.intensity;
-    const dy = -cursor.y * parallax.intensity;
+    const timeDelta = this.time.delta / 1000
 
-    const timeDelta = timeData.delta / 1000;
+    const deltaX =
+      (dx - this.cameraParallaxGroup.position.x) * parallax.speed * timeDelta
+    const deltaY =
+      (dy - this.cameraParallaxGroup.position.y) * parallax.speed * timeDelta
 
-    const deltaX = (dx - cameraParallaxGroup.position.x) * parallax.speed * timeDelta;
-    const deltaY = (dy - cameraParallaxGroup.position.y) * parallax.speed * timeDelta;
-
-    if (deltaX < 0.05 && deltaX > -0.05) cameraParallaxGroup.position.x += deltaX;
-    if (deltaY < 0.05 && deltaY > -0.05) cameraParallaxGroup.position.y += deltaY;
-  }
-
-  const setupWaypoints = () => {
-    waypoints.forEach(waypoint => {
-      camera.position.set(waypoint.position.x, waypoint.position.y, waypoint.position.z)
-      camera.lookAt(waypoint.lookAt.x, waypoint.lookAt.y, waypoint.lookAt.z)
-      waypoint.rotation.x = camera.rotation.x
-      waypoint.rotation.y = camera.rotation.y
-      waypoint.rotation.z = camera.rotation.z
-    })
-  }
-  setupWaypoints()
-
-  const onOrientationChange = () => {
-    tweens.forEach(tween => tween.kill())
-  }
-  EventBus.on("portrait", onOrientationChange);
-  EventBus.off("portrait", onOrientationChange);
-  EventBus.on("landscape", onOrientationChange);
-  EventBus.off("landscape", onOrientationChange);
-
-  const moveToWaypoint = (waypointName: string, animate: boolean = true, duration: number = 0.8) => {
-    const targetWaypoint = waypoints.find(waypoint => waypoint.name === waypointName);
-    if (!targetWaypoint) return;
-    if (animate) {
-      gsap.to(camera.position, {
-        x: targetWaypoint.position.x,
-        y: targetWaypoint.position.y,
-        z: targetWaypoint.position.z,
-        duration,
-        ease: Power1.easeInOut
-      })
-
-      gsap.to(camera.rotation, {
-        x: targetWaypoint.rotation.x,
-        y: targetWaypoint.rotation.y,
-        z: targetWaypoint.rotation.z,
-        duration,
-        ease: Power1.easeInOut
-      })
-    } else {
-      camera.position.set(targetWaypoint.position.x, targetWaypoint.position.y, targetWaypoint.position.z);
-      camera.rotation.set(targetWaypoint.rotation.x, targetWaypoint.rotation.y, targetWaypoint.rotation.z);
+    if (deltaX < 0.05 && deltaX > -0.05) {
+      this.cameraParallaxGroup.position.x += deltaX
+    }
+    if (deltaY < 0.05 && deltaY > -0.05) {
+      this.cameraParallaxGroup.position.y += deltaY
     }
   }
-
-
-  return {
-    camera,
-    resize,
-    update,
-
-
-    waypoints,
-    moveToWaypoint,
-  }
 }
-
-export default CameraFun

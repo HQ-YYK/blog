@@ -1,37 +1,89 @@
 import { gsap, Back, Power2 } from 'gsap'
 
 import EventBus from '@/hooks/Utils/EventBus'
+import Experience from '@/hooks/Experience'
 
-let landingPageDom: any,
-  scrollContainerDom: any,
-  logoWhiteBackgroundDom: any,
-  contentSvgDom: any,
-  visible: boolean = true,
-  isAnimating: boolean = false,
-  reopeningEnabled: boolean = true
+export default class LandingPage extends EventBus {
+  scrollAnimationDuration: number
+  visible: boolean
+  isAnimating: boolean
+  reopeningEnabled: boolean
+  domElements: {
+    landingPage: HTMLElement | null
+    scrollContainer: HTMLElement | null
+    logoWhiteBackground: HTMLElement | null
+    contentSvg: HTMLElement | null
+    heading0: Element
+    heading1: Element
+    subheading: Element | null
+    button: HTMLElement | null
+    aboutMeButton: HTMLElement | null
+  }
+  experience: Experience
+  gestures: any
+  room: any
+  background: any
+  renderer: any
+  character: any
+  scrollIcon: any
+  transiton: any
+  sounds: any
+  sizes: any
+  waypoints: any
+  // contactAnimation: any
+  intervals: any
 
-const scrollAnimationDuration = 0.7
+  constructor() {
+    super()
+    this.scrollAnimationDuration = 0.7
+    this.visible = true
+    this.isAnimating = false
+    this.reopeningEnabled = true
+    this.domElements = {
+      landingPage: document.getElementById('landing-page'),
+      scrollContainer: document.getElementById('scroll-container'),
+      logoWhiteBackground: document.getElementById('logo-white-background'),
+      contentSvg: document.getElementById('landing-content-svg'),
+      heading0: document.querySelectorAll('.landing-headline')[0],
+      heading1: document.querySelectorAll('.landing-headline')[1],
+      subheading: document.querySelector('.landing-subheading'),
+      button: document.getElementById('landing-cta-button'),
+      aboutMeButton: document.getElementById('landing-more-about-me'),
+    }
 
-const LandingPageFun = (
-  cameraFun: any,
-  sizes: any,
-  modelFun: any,
-  soundsFun: any,
-  bgFun: any,
-  rendererFun: any
-) => {
-  const onOrientationChange = () => {
-    if (visible) {
-      cameraFun.moveToWaypoint(
-        sizes.portrait ? 'landing-page-portrait' : 'landing-page',
+    this.experience = new Experience()
+    this.gestures = this.experience.gestures
+    this.room = this.experience.world.landingPage.room
+    this.background = this.experience.world.background
+    this.renderer = this.experience.renderer
+    this.character = this.experience.world.character
+    this.scrollIcon = this.experience.ui.scrollIcon
+    this.transiton = this.experience.ui.transition
+    this.sounds = this.experience.sounds
+    this.sizes = this.experience.sizes
+    this.waypoints = this.experience.waypoints
+    // this.contactAnimation = this.experience.world.contact.animation
+    this.intervals = this.experience.world.character.intervals
+    this.gestures.on('scroll-down', () => this.hide())
+    this.gestures.on('touch-down', () => this.hide())
+    this.waypoints.moveToWaypoint(
+      this.sizes.portrait ? 'landing-page-portrait' : 'landing-page',
+      false
+    ),
+      this.sizes.on('portrait', () => this.onOrientationChange())
+    this.sizes.on('landscape', () => this.onOrientationChange())
+  }
+  onOrientationChange() {
+    this.visible &&
+      this.waypoints.moveToWaypoint(
+        this.sizes.portrait ? 'landing-page-portrait' : 'landing-page',
         false
       )
-    }
   }
-
-  const playOpeningAnimation = (delay: number = 0, gsap?: any) => {
+  playOpeningAnimation(delay = 0) {
+    if (!this.domElements.contentSvg) return
     gsap.fromTo(
-      contentSvgDom,
+      this.domElements.contentSvg,
       {
         opacity: 0,
       },
@@ -42,11 +94,11 @@ const LandingPageFun = (
       }
     )
 
-    if (sizes.portrait) {
+    if (this.sizes.portrait) {
       gsap.fromTo(
-        contentSvgDom,
+        this.domElements.contentSvg,
         {
-          y: contentSvgDom.clientWidth * 0.6,
+          y: this.domElements.contentSvg.clientWidth * 0.6,
           scale: 0.6,
         },
         {
@@ -59,9 +111,9 @@ const LandingPageFun = (
       )
     } else {
       gsap.fromTo(
-        contentSvgDom,
+        this.domElements.contentSvg,
         {
-          x: contentSvgDom.clientWidth * 0.6,
+          x: this.domElements.contentSvg.clientWidth * 0.6,
           scale: 0.6,
         },
         {
@@ -74,171 +126,147 @@ const LandingPageFun = (
       )
     }
   }
-
-  const lockScrolling = () => {
-    reopeningEnabled = true
-    gsap.delayedCall(
-      scrollAnimationDuration + 0.2,
-      () => (reopeningEnabled = false)
-    )
-  }
-
-  const lockReopening = () => {
-    reopeningEnabled = false
-    gsap.delayedCall(
-      scrollAnimationDuration + 0.5,
-      () => (reopeningEnabled = true)
-    )
-  }
-
-  const hide = () => {
-    // const mainVisible = this.experience.ui.menu.main.visible
-    const mainVisible = true
-    // const mainIsAnimating = this.experience.ui.menu.main.isAnimating
-    const mainIsAnimating = true
-    // const isShowing = this.transiton.isShowing
-    const isShowing = true
-
+  hide() {
     if (
-      visible &&
-      !isAnimating &&
-      !mainVisible &&
-      !mainIsAnimating &&
-      !isShowing &&
-      reopeningEnabled
+      this.visible &&
+      !this.isAnimating &&
+      !this.experience.ui.menu.main.visible &&
+      !this.experience.ui.menu.main.isAnimating &&
+      !this.transiton.isShowing &&
+      this.reopeningEnabled
     ) {
-      visible = false
-      // this.scrollIcon.kill()
-      modelFun.killLeftDesktopIntervals()
-      lockScrolling()
-      soundsFun.muteGroup('landing', true)
-      soundsFun.muteGroup('lab', false)
-      modelFun.room.bounceOut()
+      this.visible = true
+      this.scrollIcon.kill()
+      this.intervals.killLeftDesktopIntervals()
+      this.lockScrolling()
+      this.sounds.muteGroup('landing', true)
+      this.sounds.muteGroup('lab', false)
+      this.room.bounceOut()
 
       gsap.delayedCall(0.2, () => {
-        landingPageDom.style.top = '-100%'
-        scrollContainerDom.style.top = '0'
-        cameraFun.moveToWaypoint(
-          sizes.portrait ? 'scroll-start-portrait' : 'scroll-start',
-          true,
-          scrollAnimationDuration
-        )
-        gsap.to(bgFun.material.uniforms.uOffset, {
-          value: -0.75,
-          ease: Power2.easeInOut,
-          duration: scrollAnimationDuration,
-        })
-        gsap.to(logoWhiteBackgroundDom, {
-          y: -window.innerHeight,
-          ease: Power2.easeInOut,
-          duration: scrollAnimationDuration,
-        })
-        // gsap.delayedCall(.7, () => this.experience.ui.scrollScrollIcon.fade(!0))
-        gsap.delayedCall(0.7, () =>
-          rendererFun.renderer.setClearColor('#EFE7DC')
-        )
-        // this.experience.ui.about.animations.hologramPlayed = false
-        // this.experience.ui.about.animations.playHologramAnimation(.5)
-        modelFun.animationsSet.play('fallDown', 0.35)
-        gsap.to(modelFun.bodySet.model.position, {
-          y: -18.95,
-          duration: scrollAnimationDuration,
-          ease: Power2.easeInOut,
-        })
-        gsap.delayedCall(0.05, () => soundsFun.play('waterSplash'))
-        modelFun.faceSet.material.map = modelFun.faceSet.textures.scared
-        gsap.delayedCall(0.65, () => modelFun.animations.play('waterIdle', 1))
-        gsap.delayedCall(0.05, () => {
-          for (let n = 0; n < 5; n++) {
-            // this.experience.world.lab.bubbles.spawnBubble(Math.random() * 1.8 + 1.2, "back")
-          }
-        })
-        modelFun.bodySet.checkForWireframe = 'down'
-        gsap.delayedCall(
-          scrollAnimationDuration,
-          () => (modelFun.bodySet.checkForWireframe = null)
-        )
-        EventBus.emit('hide')
-        lockReopening()
+        if (this.domElements.landingPage && this.domElements.scrollContainer) {
+          this.domElements.landingPage.style.top = '-100%'
+          this.domElements.scrollContainer.style.top = '0'
+          this.waypoints.moveToWaypoint(
+            this.sizes.portrait ? 'scroll-start-portrait' : 'scroll-start',
+            true,
+            this.scrollAnimationDuration
+          )
+          gsap.to(this.background.material.uniforms.uOffset, {
+            value: -0.75,
+            ease: Power2.easeInOut,
+            duration: this.scrollAnimationDuration,
+          })
+          gsap.to(this.domElements.logoWhiteBackground, {
+            y: -window.innerHeight,
+            ease: Power2.easeInOut,
+            duration: this.scrollAnimationDuration,
+          })
+          gsap.delayedCall(0.7, () =>
+            this.experience.ui.scrollScrollIcon.fade(true)
+          )
+          gsap.delayedCall(0.7, () =>
+            this.renderer.instance.setClearColor('#EFE7DC')
+          )
+          this.experience.ui.about.animations.hologramPlayed = false
+          this.experience.ui.about.animations.playHologramAnimation(0.5)
+          this.character.animations.play('fallDown', 0.35)
+          gsap.to(this.character.body.model.position, {
+            y: -18.95,
+            duration: this.scrollAnimationDuration,
+            ease: Power2.easeInOut,
+          })
+          gsap.delayedCall(0.05, () => this.sounds.play('waterSplash'))
+          this.character.face.material.map = this.character.face.textures.scared
+          gsap.delayedCall(0.65, () =>
+            this.character.animations.play('waterIdle', 1)
+          )
+          gsap.delayedCall(0.05, () => {
+            for (let n = 0; n < 5; n++)
+              this.experience.world.lab.bubbles.spawnBubble(
+                Math.random() * 1.8 + 1.2,
+                'back'
+              )
+          })
+          this.character.body.checkForWireframe = 'down'
+          gsap.delayedCall(
+            this.scrollAnimationDuration,
+            () => (this.character.body.checkForWireframe = null)
+          )
+          this.trigger('hide')
+          this.lockReopening()
+        }
       })
     }
   }
-
-  const show = () => {
-    // const isShowing = this.transiton.isShowing
-    const isShowing = true
-
-    if (!visible && !isAnimating && !isShowing && reopeningEnabled) {
-      visible = true
-      modelFun.killLeftDesktopIntervals()
-      soundsFun.muteGroup('landing', false, 1)
-      soundsFun.muteGroup('lab', true, 1)
-      lockScrolling()
-      // this.experience.ui.scrollScrollIcon.fade(false)
-      modelFun.room.bounceIn(0.5)
-      landingPageDom.style.top = '0'
-      scrollContainerDom.style.top = '100%'
-      cameraFun.moveToWaypoint(
-        sizes.portrait ? 'landing-page-portrait' : 'landing-page',
-        true,
-        scrollAnimationDuration
+  show() {
+    if (
+      !this.visible &&
+      !this.isAnimating &&
+      !this.transiton.isShowing &&
+      this.reopeningEnabled &&
+      this.domElements.landingPage &&
+      this.domElements.scrollContainer
+    ) {
+      this.visible = true
+      this.intervals.killLeftDesktopIntervals()
+      this.sounds.muteGroup('landing', false, 1)
+      this.sounds.muteGroup('lab', true, 1)
+      this.lockScrolling()
+      this.experience.ui.scrollScrollIcon.fade(false)
+      this.room.bounceIn(0.5)
+      this.domElements.landingPage.style.top = '0'
+      this.domElements.scrollContainer.style.top = '100%'
+      this.waypoints.moveToWaypoint(
+        this.sizes.portrait ? 'landing-page-portrait' : 'landing-page',
+        !0,
+        this.scrollAnimationDuration
       )
 
-      gsap.to(bgFun.material.uniforms.uOffset, {
+      gsap.to(this.background.material.uniforms.uOffset, {
         value: -2.75,
-        duration: scrollAnimationDuration,
+        duration: this.scrollAnimationDuration,
         ease: Power2.easeInOut,
       })
-      gsap.to(logoWhiteBackgroundDom, {
+      gsap.to(this.domElements.logoWhiteBackground, {
         y: 0,
         ease: Power2.easeInOut,
-        duration: scrollAnimationDuration,
+        duration: this.scrollAnimationDuration,
       })
-      rendererFun.renderer.setClearColor('#F5EFE6')
-      gsap.to(modelFun.bodySet.model.position, {
-        y: -5.7,
-        duration: scrollAnimationDuration,
-        ease: Power2.easeInOut,
-      })
-      modelFun.animations.play('idle', 0.7)
-      // this.experience.world.landingPage.mouse.moveToIdleStartPositon()
-      modelFun.face.material.map = modelFun.face.textures.default
-      modelFun.bodySet.checkForWireframe = 'up'
+      this.renderer.instance.setClearColor('#F5EFE6'),
+        gsap.to(this.character.body.model.position, {
+          y: -5.7,
+          duration: this.scrollAnimationDuration,
+          ease: Power2.easeInOut,
+        })
+      this.character.animations.play('idle', 0.7)
+      this.experience.world.landingPage.mouse.moveToIdleStartPositon()
+      this.character.face.material.map = this.character.face.textures.default
+      this.character.body.checkForWireframe = 'up'
       gsap.delayedCall(
-        scrollAnimationDuration,
-        () => (modelFun.bodySet.checkForWireframe = null)
+        this.scrollAnimationDuration,
+        () => (this.character.body.checkForWireframe = null)
       )
       // this.contactAnimation.resetCharacter()
-      soundsFun.play('waterUp')
-      EventBus.emit('show')
-      lockReopening()
+      this.sounds.play('waterUp')
+      this.trigger('show')
+      this.lockReopening()
     }
   }
-
-  const init = () => {
-    landingPageDom = document.getElementById('landing-page')
-    scrollContainerDom = document.getElementById('scroll-container')
-    logoWhiteBackgroundDom = document.getElementById('logo-white-background')
-    contentSvgDom = document.getElementById('landing-content-svg')
-
-    cameraFun.moveToWaypoint(
-      sizes.portrait ? 'landing-page-portrait' : 'landing-page',
-      false
-    )
-
-    EventBus.on('portrait', onOrientationChange)
-    EventBus.off('portrait', onOrientationChange)
-    EventBus.on('landscape', onOrientationChange)
-    EventBus.off('landscape', onOrientationChange)
+  lockScrolling() {
+    if (!this.isAnimating) {
+      gsap.delayedCall(
+        this.scrollAnimationDuration + 0.2,
+        () => (this.isAnimating = false)
+      )
+    }
   }
-
-  return {
-    init,
-    hide,
-    show,
-    visible,
-    playOpeningAnimation,
+  lockReopening() {
+    if (this.reopeningEnabled) {
+      gsap.delayedCall(
+        this.scrollAnimationDuration + 0.5,
+        () => (this.reopeningEnabled = true)
+      )
+    }
   }
 }
-
-export default LandingPageFun
