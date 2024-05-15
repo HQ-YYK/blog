@@ -9,7 +9,7 @@ import SoundButton from './SoundButton'
 import Main from './Menu/Main'
 import Items from './Menu/Items'
 
-import Render from './About/Render'
+import AboutRender from './About/Render'
 import Animations from './About/Animations'
 import ScrollLines from './About/ScrollLines'
 
@@ -57,14 +57,10 @@ export default class Ui {
       this.menu.items = new Items()
 
       this.about = {}
-      this.about.render = new Render()
+      this.about.render = new AboutRender()
       this.about.animations = new Animations()
       this.about.scrollLines = new ScrollLines()
 
-      // this.work = {}
-      // this.work.render = new lM()
-      // this.work.cards = new rM()
-      // this.work.scrollEvents = new bM()
       // this.contact = {}
       // this.contact.form = new yM()
       // this.contact.animationEvents = new xM()
@@ -83,7 +79,6 @@ export default class Ui {
     //   this.contact.animationEvents &&
     //   this.contact.animationEvents.resize()
     this.hoverIcon && this.hoverIcon.resize()
-    // this.work && this.work.scrollEvents && this.work.scrollEvents.resize()
   }
   update() {
     this.scroll && this.scroll.update()

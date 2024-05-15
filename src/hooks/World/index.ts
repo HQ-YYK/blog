@@ -11,7 +11,12 @@ import Tones from './LandingPage/Tones'
 import Speaker from './LandingPage/Speaker'
 import Penguin from './LandingPage/Penguin'
 
-// import Model from './Lab/Model'
+import Model from './Lab/Model'
+import Shadow from './Lab/Shadow'
+import Tube from './Lab/Tube'
+import Environment from './Lab/Environment'
+import Drop from './Lab/Drop'
+import Bubbles from './Lab/Bubbles'
 
 import Body from './Character/Body'
 import Face from './Character/Face'
@@ -45,22 +50,19 @@ export default class World {
       this.landingPage.speaker = new Speaker()
       this.landingPage.penguin = new Penguin()
 
-      // this.lab = {
-      //   model: new Model(),
-      //   shadow: new Shadow(),
-      //   tube: new Tube(),
-      //   screen: new Screen(),
-      //   drop: new Drop(),
-      //   bubbles: new Bubbles(),
-      //   testTubes: new TestTubes(),
-      // }
+      this.lab = {}
+      this.lab.model = new Model()
+      this.lab.shadow = new Shadow()
+      this.lab.tube = new Tube()
+      this.lab.screen = new Environment()
+      this.lab.drop = new Drop()
+      this.lab.bubbles = new Bubbles()
+      // this.lab.testTubes = new TestTubes()
 
-      // this.contact = {
-      //   scene: new Scene(),
-      //   shadow = new Shadow(),
-      //   david = new David(),
-      //  animation: new Animation(),
-      // }
+      // this.contact = {},
+      // this.contact.scene = new Scene()
+      // this.contact.shadow = new Shadow()
+      // this.contact.david = new David()
 
       this.character = {}
       this.character.body = new Body()

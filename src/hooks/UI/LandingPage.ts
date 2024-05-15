@@ -30,6 +30,7 @@ export default class LandingPage extends EventBus {
   sounds: any
   sizes: any
   waypoints: any
+  // TODO: fix this
   // contactAnimation: any
   intervals: any
 
@@ -62,6 +63,7 @@ export default class LandingPage extends EventBus {
     this.sounds = this.experience.sounds
     this.sizes = this.experience.sizes
     this.waypoints = this.experience.waypoints
+    // TODO: fix this
     // this.contactAnimation = this.experience.world.contact.animation
     this.intervals = this.experience.world.character.intervals
     this.gestures.on('scroll-down', () => this.hide())
@@ -219,7 +221,7 @@ export default class LandingPage extends EventBus {
       this.domElements.scrollContainer.style.top = '100%'
       this.waypoints.moveToWaypoint(
         this.sizes.portrait ? 'landing-page-portrait' : 'landing-page',
-        !0,
+        true,
         this.scrollAnimationDuration
       )
 
@@ -247,6 +249,7 @@ export default class LandingPage extends EventBus {
         this.scrollAnimationDuration,
         () => (this.character.body.checkForWireframe = null)
       )
+      // TODO: fix this
       // this.contactAnimation.resetCharacter()
       this.sounds.play('waterUp')
       this.trigger('show')

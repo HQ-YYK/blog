@@ -45,7 +45,7 @@ export default class Main extends EventBus {
       logoBackgroundY: 0,
       backgroundY: 0,
     }
-    this.isAnimating = true
+    this.isAnimating = false
     this.domElements = {
       menuButton: document.getElementById('menu-button'),
       menuContainer: document.getElementById('menu-container'),
@@ -68,6 +68,7 @@ export default class Main extends EventBus {
     this.transition = this.experience.ui.transition
     this.sounds = this.experience.sounds
     this.sizes = this.experience.sizes
+    // TODO: fix this
     // this.contactAnimation = this.experience.world.contact.animation
     this.character = this.experience.world.character
     this.yTween = null
@@ -250,6 +251,7 @@ export default class Main extends EventBus {
         this.experience.world.contact.scene.model.position.y + 5.8
     }
     this.waypoints.moveToWaypoint('contact-menu')
+    // TODO: fix this
     // this.contactAnimation.playIdle()
     // gsap.delayedCall(1, () => this.contactAnimation.playTransition())
     window.requestAnimationFrame(() => {

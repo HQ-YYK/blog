@@ -47,7 +47,7 @@ export default class Animations {
         (animation: { name: string }) => animation.name === 'idle'
       )
     )
-    this.actions.idle.loop = THREE.LoopOnce
+    this.actions.idle.loop = THREE.LoopPingPong
     this.actions.idle.allowedOutsideLanding = false
     this.actions.wave = this.mixer.clipAction(
       this.resource.animations.find(

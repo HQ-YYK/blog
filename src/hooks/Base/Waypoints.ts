@@ -1,3 +1,5 @@
+import { gsap, Power1 } from 'gsap'
+
 import Experience from '@/hooks/Experience'
 
 import { waypoints } from '@/data/Camera'

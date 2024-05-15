@@ -167,6 +167,7 @@ export default class Items {
       this.sizes.portrait ? 'landing-page-portrait' : 'landing-page',
       false
     )
+    // TODO: fix this
     // this.contactAnimation.resetCharacter()
     this.sounds.muteGroup('landing', false)
     this.sounds.muteGroup('lab', true)
@@ -210,6 +211,7 @@ export default class Items {
       ? 'scroll-start-portrait'
       : 'scroll-start'
     this.waypoints.moveToWaypoint(scrollStartWaypoint, false)
+    // TODO: fix this
     // this.contactAnimation.resetCharacter()
     if (item.name !== 'about') {
       this.experience.ui.scrollScrollIcon.kill()
@@ -219,12 +221,14 @@ export default class Items {
     this.sounds.muteGroup('landing', true)
     if (item.name === 'contact') {
       if (!this.sizes.portrait) {
+        // TODO: fix this
         // this.contactAnimation.playIdle()
         // gsap.delayedCall(1, () => this.contactAnimation.playTransition())
       }
       this.experience.ui.contact.animationEvents.resetPositions()
       this.experience.ui.work.scrollEvents.resetPositions()
     } else if (item.name === 'work') {
+      // TODO: fix this
       // this.contactAnimation.playIdle()
       this.experience.ui.work.scrollEvents.resetPositions()
     } else {

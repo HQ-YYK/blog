@@ -59,6 +59,7 @@ export default class ScrollController extends EventBus {
     this.sounds = this.experience.sounds
     this.waypoints = this.experience.waypoints
     this.scrollIcon = this.experience.ui.scrollScrollIcon
+    // TODO: fix this
     // this.contactScene = this.experience.world.contact.scene
     this.time = this.experience.time
     if (this.domElements.scrollContainer) {
@@ -74,18 +75,21 @@ export default class ScrollController extends EventBus {
     this.setCameraRange()
     this.setAboutContainerDetails()
     this.setLogoOverlayHeight()
-    this.gestures.on('scroll-down', () => this.attemptScroll(1))
-    this.gestures.on('scroll-up', () => this.attemptScroll(-1))
+    this.gestures.on('scroll-down', (event: WheelEvent) =>
+      this.attemptScroll(1, event)
+    )
+    this.gestures.on('scroll-up', (event: WheelEvent) =>
+      this.attemptScroll(-1, event)
+    )
     this.gestures.on('touch-down', () => {
       if (
         this.experience.time.current - this.gestures.touchStartTime <
         this.parameters.verticalSwipeMaximumSinceStart
       ) {
-        /**
-         *  this.gestures.touchDistanceY *
-            this.parameters.multiplyTouchStrengthBy()
-         */
-        this.attemptScroll(1)
+        const deltaY =
+          this.gestures.touchDistanceY *
+          this.parameters.multiplyTouchStrengthBy()
+        this.attemptScroll(1, { deltaY })
       }
     })
     this.gestures.on('touch-up', () => {
@@ -93,11 +97,10 @@ export default class ScrollController extends EventBus {
         this.experience.time.current - this.gestures.touchStartTime <
         this.parameters.verticalSwipeMaximumSinceStart
       ) {
-        /**
-         *  this.gestures.touchDistanceY *
-            this.parameters.multiplyTouchStrengthBy()
-         */
-        this.attemptScroll(-1)
+        const deltaY =
+          this.gestures.touchDistanceY *
+          this.parameters.multiplyTouchStrengthBy()
+        this.attemptScroll(-1, { deltaY })
       }
     })
     this.landingPage.on('hide', () => {
@@ -122,13 +125,13 @@ export default class ScrollController extends EventBus {
           event.changedTouches[0].clientY -
           this.previousTouchDistance
         this.previousTouchDistance += mTouchY
-        this.attemptScroll(Math.sign(mTouchY))
+        this.attemptScroll(Math.sign(mTouchY), { deltaY: Math.abs(mTouchY) })
       }
     })
     window.addEventListener('touchend', () => (this.previousTouchDistance = 0))
     this.stopScrollOnTouchStart()
   }
-  attemptScroll(delta: number, event?: WheelEvent) {
+  attemptScroll(delta: number, event?: { deltaY?: number; deltaX?: number }) {
     const normalizedDelta: number =
       delta * ((event?.deltaY ? event.deltaY : 100 * delta) * 0.9)
     if (this.scrollAllowed()) {
@@ -250,12 +253,12 @@ export default class ScrollController extends EventBus {
     this.waypoints.moveToWaypoint(
       this.sizes.portrait ? 'scroll-start-portrait' : 'scroll-start',
       !1
-    ),
-      (this.scrollY = 0),
-      this.performScroll(0),
-      this.experience.ui.header.show(),
-      this.experience.ui.about.animations.playHologramAnimation(),
-      this.experience.ui.about.animations.resetCharacterToPosition()
+    )
+    this.scrollY = 0
+    this.performScroll(0)
+    this.experience.ui.header.show()
+    this.experience.ui.about.animations.playHologramAnimation()
+    this.experience.ui.about.animations.resetCharacterToPosition()
   }
   setCameraRange() {
     this.cameraRange = {}
@@ -276,6 +279,7 @@ export default class ScrollController extends EventBus {
           )) /
           window.innerHeight) *
           5
+    // TODO: fix this
     // this.contactScene.setYPosition(
     //   this.cameraRange.bottom + (this.sizes.portrait ? 0.5 : 0)
     // )

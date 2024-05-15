@@ -61,3 +61,19 @@ void main()
 {
     gl_FragColor = vec4(vColor, 1.0);
 }`
+
+export const $b = `uniform vec3 uColorTop;
+uniform vec3 uColorBottom;
+uniform float uOpacity;
+  
+varying vec2 vUv;
+    
+void main() {
+    gl_FragColor = vec4( mix(uColorBottom, uColorTop, vUv.y), uOpacity);
+}`,
+  Qb = `varying vec2 vUv;
+
+void main() {
+    vUv = uv;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+}`

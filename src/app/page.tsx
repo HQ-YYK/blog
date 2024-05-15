@@ -34,6 +34,7 @@ export default function Home() {
 
       {/* Loading Container */}
       <div id="transition-container" className="hide">
+        {/* Top Wave */}
         <svg
           id="transition-wave-svg"
           xmlns="http://www.w3.org/2000/svg"
@@ -47,8 +48,10 @@ export default function Home() {
           <use href="#transition-wave-path"></use>
         </svg>
 
+        {/* Center Fill */}
         <div id="transition-push"></div>
 
+        {/* Bottom Wave */}
         <svg
           id="transition-wave-svg-bottom"
           xmlns="http://www.w3.org/2000/svg"
@@ -57,8 +60,10 @@ export default function Home() {
         </svg>
       </div>
 
+      {/* Overlay Container */}
       <div id="overlay-container" className="content-width">
         <header id="header-container">
+          {/* Logo */}
           <svg
             id="header-logo-svg"
             viewBox="0 0 56 61"
@@ -85,6 +90,7 @@ export default function Home() {
 
           <div id="logo-click-container"></div>
 
+          {/* Sound Button */}
           <div id="sound-button-scale-container">
             <div id="sound-button" className="center overlay-button">
               <svg
@@ -106,6 +112,7 @@ export default function Home() {
             </div>
           </div>
 
+          {/* Menu Button */}
           <div id="menu-button-scale-container">
             <div
               id="menu-button"
@@ -117,6 +124,8 @@ export default function Home() {
           </div>
         </header>
 
+        {/* Scroll CTA */}
+        {/* Landing */}
         <div className="scroll-container">
           <div className="scroll-border-container">
             <div className="scroll-wheel"></div>
@@ -130,6 +139,7 @@ export default function Home() {
           />
         </div>
 
+        {/* Scroll */}
         <div className="scroll-container" style={{ opacity: 0 }}>
           <div
             className="scroll-border-container"
@@ -149,8 +159,10 @@ export default function Home() {
         </div>
       </div>
 
+      {/* Menu */}
       <div id="menu-container" className="column">
         <div id="menu-content-container" className="column">
+          {/* Menu Items */}
           <div id="menu-items-container">
             <div className="column menu-items-column-container">
               <span className="menu-item active-menu-item">Home</span>
@@ -162,6 +174,7 @@ export default function Home() {
             </div>
           </div>
 
+          {/* Social Link */}
           <div id="menu-social-container" className="row">
             <a
               tabIndex={-1}
@@ -206,6 +219,7 @@ export default function Home() {
             </a>
           </div>
           <hr />
+          {/* Music Credits */}
           <div id="music-credit-container" className="row">
             <span>
               Music produced by
@@ -220,6 +234,7 @@ export default function Home() {
         </div>
       </div>
 
+      {/* Hover Icon */}
       <div id="hover-icon">
         <svg
           id="hover-content"
@@ -237,6 +252,7 @@ export default function Home() {
         <div className="hover-spread"></div>
       </div>
 
+      {/* Landing Page */}
       <div
         id="landing-page"
         className="content-container landing-slow-transition">
@@ -271,6 +287,7 @@ export default function Home() {
         </section>
       </div>
 
+      {/* Scroll Container */}
       <div id="scroll-container" className="center column">
         <section id="about-section" className="content-width">
           {/* About Container */}
@@ -421,7 +438,7 @@ export default function Home() {
                     y="20"
                     fontSize="18"
                     className="about-header-lower-text">
-                    23
+                    24
                   </text>
                   <text
                     x="200"
@@ -435,7 +452,7 @@ export default function Home() {
                     y="20"
                     fontSize="18"
                     className="about-header-lower-text">
-                    Germany
+                    China
                   </text>
                 </g>
               </g>
@@ -716,6 +733,8 @@ export default function Home() {
             </svg>
           </div>
         </section>
+
+        <div id="hover-icon-color-switch"></div>
       </div>
     </>
   )

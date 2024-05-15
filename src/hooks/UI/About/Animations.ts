@@ -1,5 +1,6 @@
 import Experience from '@/hooks/Experience'
 import ScrollController from '@/hooks/Utils/ScrollController'
+import { gsap, Power2 } from 'gsap'
 
 export default class Animations {
   hologramPlayed: boolean
