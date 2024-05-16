@@ -24,7 +24,7 @@ export default class MessagePopUp {
       map: this.resources.items.newMessageSprite,
       alphaTest: 0.1,
       opacity: 0,
-      fog: !1,
+      fog: false,
     })
     this.sprite = new THREE.Sprite(this.material)
     this.room.model.add(this.sprite)

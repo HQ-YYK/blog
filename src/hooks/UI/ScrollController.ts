@@ -1,3 +1,4 @@
+import { gsap, Power2 } from 'gsap'
 import Experience from '@/hooks/Experience'
 import EventBus from '@/hooks/Utils/EventBus'
 
@@ -252,7 +253,7 @@ export default class ScrollController extends EventBus {
   moveToTop() {
     this.waypoints.moveToWaypoint(
       this.sizes.portrait ? 'scroll-start-portrait' : 'scroll-start',
-      !1
+      false
     )
     this.scrollY = 0
     this.performScroll(0)
@@ -293,27 +294,25 @@ export default class ScrollController extends EventBus {
   }
   addEvent(
     height: number,
-    direction: string,
+    direction: 'up' | 'down',
     task: () => void,
     played: boolean = false
   ) {
     let executed = false
     this.events.push({
-      height: height,
-      direction: direction,
-      task: task,
+      height,
+      direction,
+      task,
       check: () => {
-        if (!executed) {
-          if (
-            (direction === 'up'
-              ? height >= this.actualScroll && this.actualScroll !== 0
-              : height <= this.actualScroll) &&
-            !played
-          ) {
-            task()
-            if (!played) {
-              executed = true
-            }
+        if (
+          !executed &&
+          (direction === 'up'
+            ? height >= this.actualScroll && this.actualScroll !== 0
+            : height <= this.actualScroll)
+        ) {
+          task()
+          if (!played) {
+            executed = true
           }
         }
       },
@@ -334,8 +333,9 @@ export default class ScrollController extends EventBus {
     )
   }
   checkLandingPageOpening() {
-    ;(!this.lastWheelUp || this.time.current - this.lastWheelUp > 200) &&
+    if (!this.lastWheelUp || this.time.current - this.lastWheelUp > 200) {
       this.landingPage.show()
+    }
   }
   setLogoOverlayHeight() {
     const logoBackground = document.getElementById('logo-white-background')

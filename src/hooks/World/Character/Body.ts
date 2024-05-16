@@ -228,8 +228,13 @@ export default class Body {
         originalMaterial: any
         material: any
       }) => {
-        child.name === 'face' && (child.visible = !0)
-        child.originalMaterial && (child.material = child.originalMaterial)
+        if (child.name === 'face') {
+          child.visible = true
+        }
+
+        if (child.originalMaterial) {
+          child.material = child.originalMaterial
+        }
       }
     )
   }
@@ -265,7 +270,7 @@ export default class Body {
   }
   updateToOriginalMaterial(child: THREE.Mesh & ExtendedObject3D) {
     child.name === 'face'
-      ? (child.visible = !0)
+      ? (child.visible = true)
       : (child.material = child.originalMaterial)
   }
   updateToWireframeMaterial(child: THREE.Mesh & ExtendedObject3D) {

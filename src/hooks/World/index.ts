@@ -17,6 +17,7 @@ import Tube from './Lab/Tube'
 import Environment from './Lab/Environment'
 import Drop from './Lab/Drop'
 import Bubbles from './Lab/Bubbles'
+import TestTubes from './Lab/TestTubes'
 
 import Body from './Character/Body'
 import Face from './Character/Face'
@@ -57,7 +58,7 @@ export default class World {
       this.lab.screen = new Environment()
       this.lab.drop = new Drop()
       this.lab.bubbles = new Bubbles()
-      // this.lab.testTubes = new TestTubes()
+      this.lab.testTubes = new TestTubes()
 
       // this.contact = {},
       // this.contact.scene = new Scene()
@@ -77,6 +78,6 @@ export default class World {
       this.character.intervals && this.character.intervals.update()
       this.character.body && this.character.body.update()
     }
-    // this.lab && this.lab.screen && this.lab.screen.update()
+    this.lab && this.lab.screen && this.lab.screen.update()
   }
 }

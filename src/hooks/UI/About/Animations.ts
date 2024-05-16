@@ -285,7 +285,8 @@ export default class Animations {
       element: document.getElementById('work-section'),
       direction: 'up',
       callback: () => {
-        this.playHologramAnimation(0.1), this.resetCharacterToPosition()
+        this.playHologramAnimation(0.1)
+        this.resetCharacterToPosition()
       },
       repeats: true,
     })
@@ -293,7 +294,7 @@ export default class Animations {
   resetCharacterToPosition() {
     if (
       !this.experience.ui.landingPage.visible &&
-      this.character.bodyModel.position.y !== -18.95 &&
+      this.character.body.model.position.y !== -18.95 &&
       !this.experience.ui.landingPage.isAnimating
     ) {
       if (
@@ -302,9 +303,9 @@ export default class Animations {
         this.character.animations.play('waterIdle', 0)
       }
 
-      this.character.bodyModel.position.y = -18.95
+      this.character.body.model.position.y = -18.95
       this.character.body.updateWireframe('down')
-      this.character.bodyModel.scale.set(1, 1, 1)
+      this.character.body.model.scale.set(1, 1, 1)
     }
   }
   fadeInHologramUI(delay: number) {

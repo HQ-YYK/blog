@@ -18,7 +18,7 @@ import HoverIcon from './HoverIcon'
 
 import Intro from './Intro'
 
-export default class Ui {
+export default class UI {
   experience: Experience
   resources: any
   world: any

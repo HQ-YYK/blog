@@ -70,7 +70,7 @@ export default class Animations {
         (animation: { name: string }) => animation.name === 'water-idle'
       )
     )
-    this.actions.waterIdle.loop = THREE.LoopOnce
+    this.actions.waterIdle.loop = THREE.LoopPingPong
     this.actions.waterIdle.allowedOutsideLanding = true
     this.actions.contact = this.mixer.clipAction(
       this.resource.animations.find(
@@ -85,7 +85,7 @@ export default class Animations {
         (animation: { name: string }) => animation.name === 'standing-idle'
       )
     )
-    this.actions.standingIdle.loop = THREE.LoopOnce
+    this.actions.standingIdle.loop = THREE.LoopPingPong
     this.actions.standingIdle.allowedOutsideLanding = true
     this.actions.standingIdle.timeScale = 0.5
   }

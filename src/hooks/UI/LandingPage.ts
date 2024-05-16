@@ -30,8 +30,7 @@ export default class LandingPage extends EventBus {
   sounds: any
   sizes: any
   waypoints: any
-  // TODO: fix this
-  // contactAnimation: any
+  contactAnimation: any
   intervals: any
 
   constructor() {
@@ -137,7 +136,7 @@ export default class LandingPage extends EventBus {
       !this.transiton.isShowing &&
       this.reopeningEnabled
     ) {
-      this.visible = true
+      this.visible = false
       this.scrollIcon.kill()
       this.intervals.killLeftDesktopIntervals()
       this.lockScrolling()
@@ -257,19 +256,17 @@ export default class LandingPage extends EventBus {
     }
   }
   lockScrolling() {
-    if (!this.isAnimating) {
-      gsap.delayedCall(
-        this.scrollAnimationDuration + 0.2,
-        () => (this.isAnimating = false)
-      )
-    }
+    this.isAnimating = true
+    gsap.delayedCall(
+      this.scrollAnimationDuration + 0.2,
+      () => (this.isAnimating = false)
+    )
   }
   lockReopening() {
-    if (this.reopeningEnabled) {
-      gsap.delayedCall(
-        this.scrollAnimationDuration + 0.5,
-        () => (this.reopeningEnabled = true)
-      )
-    }
+    this.reopeningEnabled = false
+    gsap.delayedCall(
+      this.scrollAnimationDuration + 0.5,
+      () => (this.reopeningEnabled = true)
+    )
   }
 }

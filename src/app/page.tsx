@@ -169,7 +169,6 @@ export default function Home() {
               <span className="menu-item">About</span>
             </div>
             <div className="column menu-items-column-container">
-              <span className="menu-item">Work</span>
               <span className="menu-item">Contact</span>
             </div>
           </div>
@@ -602,7 +601,7 @@ export default function Home() {
 
                   {/* First Text */}
                   <text x="88" y="33" className="about-text">
-                    At the age of 15, David first came in touch with UX
+                    At the age of 18, L first came in touch with XCX
                   </text>
                   <text x="88" y="50" className="about-text">
                     Design and app development.
@@ -643,10 +642,10 @@ export default function Home() {
 
                   {/* Second Text */}
                   <text x="5" y="33" className="about-text">
-                    During his 4 years of military service, programming
+                    During his 7 years of college, programming
                   </text>
                   <text x="5" y="50" className="about-text">
-                    has always been a passion of his.
+                    has always been a passion of her.
                   </text>
                 </g>
 
@@ -683,7 +682,7 @@ export default function Home() {
 
                   {/* Third Text */}
                   <text x="88" y="33" className="about-text">
-                    Now, after professional coaching, David is looking for
+                    Now, after professional coaching, L is looking for
                   </text>
                   <text x="88" y="50" className="about-text">
                     new challenges to work as a web developer.

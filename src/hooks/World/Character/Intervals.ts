@@ -133,7 +133,7 @@ export default class Intervals {
             this.animation.actions.leftDesktopAction._clip.duration,
             () => {
               this.experience.ui.landingPage.isAnimating ||
-                ((this.isLeft = !1), this.animation.play('idle', 0.35))
+                ((this.isLeft = false), this.animation.play('idle', 0.35))
             }
           )
         )

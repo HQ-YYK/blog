@@ -4,8 +4,8 @@ export const skillsData = [
     width: '60%',
   },
   {
-    name: 'ReactJS',
-    width: '65%',
+    name: 'VueJS',
+    width: '70%',
   },
   {
     name: 'JavaScript',
@@ -16,7 +16,7 @@ export const skillsData = [
     width: '90%',
   },
   {
-    name: '3D Modelling',
-    width: '60%',
+    name: 'ReactJs',
+    width: '40%',
   },
 ]

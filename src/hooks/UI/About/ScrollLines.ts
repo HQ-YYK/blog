@@ -1,3 +1,4 @@
+import { gsap } from 'gsap'
 import Experience from '@/hooks/Experience'
 
 export default class ScrollLines {

@@ -14,21 +14,23 @@ export default class Render {
     this.renderSkills()
   }
   renderSkills() {
-    this.skills.forEach((e) => {
+    this.skills.forEach((skill) => {
       this.domElements.skillsRenderContainer &&
         this.domElements.skillsRenderContainer.insertAdjacentHTML(
           'beforeend',
           `
             <div id="about-skill-container-${this.skills.indexOf(
-              e
+              skill
             )}" class="row about-skill-container">
                 <span id="about-skill-span-${this.skills.indexOf(
-                  e
-                )}" class="about-skill-span">${e.name}</span>
+                  skill
+                )}" class="about-skill-span">${skill.name}</span>
                 <div class="about-skill-bar-container">
                     <div id="about-skill-bar-${this.skills.indexOf(
-                      e
-                    )}" class="about-skill-bar" style="width: ${e.width}"></div>
+                      skill
+                    )}" class="about-skill-bar" style="width: ${
+            skill.width
+          }"></div>
                 </div>
             </div>
         `

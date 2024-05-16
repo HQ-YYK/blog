@@ -49,7 +49,7 @@ export default class Penguin {
 
       gsap.to(this.model.position, {
         y: 2,
-        yoyo: !0,
+        yoyo: true,
         repeat: 1,
         duration: 0.4,
       })
@@ -57,13 +57,13 @@ export default class Penguin {
         x: 0.4,
         duration: 0.1,
         repeat: 7,
-        yoyo: !0,
+        yoyo: true,
       })
       gsap.to(this.wings[1].rotation, {
         x: -0.4,
         duration: 0.1,
         repeat: 7,
-        yoyo: !0,
+        yoyo: true,
       })
       this.sounds.play('bird'), this.animateHeart()
     }

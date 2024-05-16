@@ -1,3 +1,4 @@
+import { gsap } from 'gsap'
 import Experience from '@/hooks/Experience'
 import EventBus from '@/hooks/Utils/EventBus'
 
@@ -116,11 +117,7 @@ export default class Main extends EventBus {
           duration: 0.7,
         })
       }
-      if (this.visible) {
-        this.crossMenuButton()
-      } else {
-        this.resetMenuButton()
-      }
+      this.visible ? this.crossMenuButton() : this.resetMenuButton()
       if (isVisible && !this.sizes.portrait) {
         if (this.landingPage.visible) {
           this.landingPageTransition(transition)
@@ -334,6 +331,6 @@ export default class Main extends EventBus {
   resize() {
     this.setWidth(),
       this.updatePositon(),
-      this.visible && this.switchVisiblity(!0, !0, false)
+      this.visible && this.switchVisiblity(true, true, false)
   }
 }

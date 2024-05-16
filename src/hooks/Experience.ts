@@ -9,7 +9,7 @@ import Camera from './Base/Camera'
 import Waypoints from './Base/Waypoints'
 import Renderer from './Base/Renderer'
 import World from './World'
-import Ui from './UI'
+import UI from './UI'
 import Raycaster from './Base/Raycaster'
 
 import { resourcesData } from '@/data/Resources'
@@ -47,7 +47,7 @@ export default class Experience {
     this.waypoints = new Waypoints()
     this.renderer = new Renderer()
     this.world = new World()
-    this.ui = new Ui()
+    this.ui = new UI()
     this.raycaster = new Raycaster()
     this.sizes.on('resize', () => {
       this.resize()
