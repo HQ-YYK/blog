@@ -43,20 +43,22 @@ export default class ScrollIcon {
   }
 
   setupScrollIcon() {
-    this.scrollBorder.classList.remove('hide')
-    this.touchIcon.classList.add('hide')
-    gsap.killTweensOf(this.touchIcon)
-    gsap.fromTo(
-      this.scrollWheel,
-      { y: 0 },
-      {
-        y: 6,
-        duration: 1,
-        ease: Power1.easeIn,
-        repeat: -1,
-        yoyo: true,
-      }
-    )
+    if (this.scrollBorder && this.touchIcon) {
+      this.scrollBorder.classList.remove('hide')
+      this.touchIcon.classList.add('hide')
+      gsap.killTweensOf(this.touchIcon)
+      gsap.fromTo(
+        this.scrollWheel,
+        { y: 0 },
+        {
+          y: 6,
+          duration: 1,
+          ease: Power1.easeIn,
+          repeat: -1,
+          yoyo: true,
+        }
+      )
+    }
   }
 
   fade(show: boolean) {

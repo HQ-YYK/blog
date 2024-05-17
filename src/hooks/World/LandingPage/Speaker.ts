@@ -14,16 +14,17 @@ export default class Speaker {
     this.model.hoverIcon = 'pointer'
     this.model.onClick = () => this.clickEvent()
     window.requestAnimationFrame(() => {
-      if (!this.experience.ui.menu) return
-      const menu = this.experience.ui.menu.main
-      menu.on('open', () => {
-        this.model.hoverIcon = null
-        this.model.onClick = null
-      })
-      menu.on('hide', () => {
-        this.model.hoverIcon = 'pointer'
-        this.model.onClick = () => this.clickEvent()
-      })
+      if (this.experience.ui && this.experience.ui.menu) {
+        const menu = this.experience.ui.menu.main
+        menu.on('open', () => {
+          this.model.hoverIcon = null
+          this.model.onClick = null
+        })
+        menu.on('hide', () => {
+          this.model.hoverIcon = 'pointer'
+          this.model.onClick = () => this.clickEvent()
+        })
+      }
     })
   }
   clickEvent() {

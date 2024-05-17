@@ -132,7 +132,7 @@ export default function Home() {
           </div>
           <Image
             className="scroll-touch-icon hide"
-            src="/touch-icon.png"
+            src="touch-icon.png"
             alt="scroll mouse icon wheel"
             width={38}
             height={38}
@@ -150,7 +150,7 @@ export default function Home() {
           </div>
           <Image
             className="scroll-touch-icon hide"
-            src="/touch-icon.png"
+            src="touch-icon.png"
             style={{ filter: 'brightness(100)' }}
             width={38}
             height={38}
@@ -340,7 +340,7 @@ export default function Home() {
 
                 {/* Profile Picture */}
                 <image
-                  href="/skills-profile-picture.png"
+                  href="skills-profile-picture.png"
                   opacity="1"
                   height="170"
                   width="145"
@@ -569,7 +569,7 @@ export default function Home() {
                     className="about-pixel-image"
                     height="64"
                     width="64"
-                    href="/icons/baby-pixel.png"
+                    href="icons/baby-pixel.png"
                     x="6"
                     y="7"
                   />
@@ -605,7 +605,7 @@ export default function Home() {
                     className="about-pixel-image"
                     height="64"
                     width="64"
-                    href="/icons/heart-pixel.png"
+                    href="icons/heart-pixel.png"
                     x="413"
                     y="6"
                   />
@@ -650,7 +650,7 @@ export default function Home() {
                     className="about-pixel-image"
                     height="64"
                     width="64"
-                    href="/icons/rocket-pixel.png"
+                    href="icons/rocket-pixel.png"
                     x="6"
                     y="7"
                   />
