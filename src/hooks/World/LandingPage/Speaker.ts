@@ -14,6 +14,7 @@ export default class Speaker {
     this.model.hoverIcon = 'pointer'
     this.model.onClick = () => this.clickEvent()
     window.requestAnimationFrame(() => {
+      if (!this.experience.ui.menu) return
       const menu = this.experience.ui.menu.main
       menu.on('open', () => {
         this.model.hoverIcon = null

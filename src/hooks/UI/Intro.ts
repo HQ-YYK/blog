@@ -1,5 +1,5 @@
 import Experience from '../Experience'
-import { gsap, Back } from 'gsap'
+import { gsap, Back, Linear } from 'gsap'
 
 export default class Intro {
   parameters: { timeTillFinish: number }

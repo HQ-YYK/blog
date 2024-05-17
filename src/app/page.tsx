@@ -174,22 +174,8 @@ export default function Home() {
           </div>
 
           {/* Social Link */}
-          <div id="menu-social-container" className="row">
-            <a
-              tabIndex={-1}
-              target="_blank"
-              href="https://twitter.com/DavidHckh">
-              <Image
-                className="social-icon"
-                src="/icons/twitter-icon.png"
-                alt="Twitter Menu Icon"
-                height="28"
-                width="28"></Image>
-            </a>
-            <a
-              tabIndex={-1}
-              target="_blank"
-              href="https://github.com/davidhckh">
+          {/* <div id="menu-social-container" className="row">
+            <a tabIndex={-1} target="_blank" href="https://github.com/HQ-YYK">
               <Image
                 className="social-icon"
                 alt="Github Menu Icon"
@@ -197,18 +183,7 @@ export default function Home() {
                 width="28"
                 src="/icons/github-icon.png"></Image>
             </a>
-            <a
-              tabIndex={-1}
-              target="_blank"
-              href="https://www.linkedin.com/in/david-heckhoff-1ba8a622a/">
-              <Image
-                className="social-icon "
-                alt="Linkedin Menu Icon"
-                height="28"
-                width="28"
-                src="/icons/linkedin-icon.png"></Image>
-            </a>
-            <a tabIndex={-1} href="mailto:david.heckhoff@gmail.com">
+            <a tabIndex={-1} href="mailto:1850115720@qq.com">
               <Image
                 className="social-icon"
                 alt="Email Menu Icon"
@@ -216,7 +191,7 @@ export default function Home() {
                 width="28"
                 src="/icons/mail-icon.png"></Image>
             </a>
-          </div>
+          </div> */}
           <hr />
           {/* Music Credits */}
           <div id="music-credit-container" className="row">

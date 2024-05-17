@@ -3,10 +3,10 @@ import { gsap, Power1 } from 'gsap'
 
 export default class ScrollIcon {
   visible: boolean = true
-  scrollIcon
-  scrollBorder
-  scrollWheel
-  touchIcon
+  scrollIcon: any
+  scrollBorder: any
+  scrollWheel: any
+  touchIcon: any
   experience: Experience
   sizes: any
 
@@ -25,6 +25,7 @@ export default class ScrollIcon {
   }
 
   setupTouchIcon() {
+    if (!this.scrollBorder) return
     this.scrollBorder.classList.add('hide')
     this.touchIcon.classList.remove('hide')
     gsap.killTweensOf(this.scrollWheel)
